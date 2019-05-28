@@ -1,0 +1,5 @@
+erblint:
+  enabled: true
+
+stylelint:
+  enabled: true
