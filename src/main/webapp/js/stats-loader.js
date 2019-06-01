@@ -9,6 +9,9 @@ function fetchStats(){
 
     const messageCountElement = buildStatElement('Message count: ' + stats.messageCount);
     statsContainer.appendChild(messageCountElement);
+
+    const userCountElement = buildStatElement('User count: ' + stats.userCount);
+    statsContainer.appendChild(userCountElement);
   });
 }
 
