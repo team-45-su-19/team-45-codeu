@@ -38,6 +38,7 @@ public class StatsPageServlet extends HttpServlet{
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("messageCount", messageCount);
     jsonObject.addProperty("userCount", userCount);
+
     response.getOutputStream().println(jsonObject.toString());
   }
 }
