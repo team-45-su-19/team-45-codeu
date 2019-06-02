@@ -12,6 +12,9 @@ function fetchStats(){
 
     const userCountElement = buildStatElement('User count: ' + stats.userCount);
     statsContainer.appendChild(userCountElement);
+
+    const averageMessageLengthElement = buildStatElement('Average message length: ' + stats.averageMessageLength);
+    statsContainer.appendChild(averageMessageLengthElement);
   });
 }
 

@@ -98,7 +98,17 @@ public class Datastore {
     for (Entity message : results.asList(FetchOptions.Builder.withLimit(1000))){
       users.add(message.getProperty("user"));
     }
-    System.out.println(users);
     return users.size();
+  }
+
+  /** Returns the average message length. */
+  public double getAverageMessageLength(){
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    Integer sum = 0;
+    for (Entity message : results.asList(FetchOptions.Builder.withLimit(1000))){
+      sum += message.getProperty("text").toString().length();
+    }
+    return sum.doubleValue()/results.asList(FetchOptions.Builder.withLimit(1000)).size();
   }
 }
