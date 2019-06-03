@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -55,16 +56,44 @@ public class Datastore {
   public List<Message> getMessages(String user) {
     List<Message> messages = new ArrayList<>();
 
-    Query query =
-        new Query("Message")
+    Query query = new Query("Message")
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
             .addSort("timestamp", SortDirection.DESCENDING);
+
+    return prepareMessages(query);
+
+  }
+  /**
+   * Gets all messages in database.
+   *
+   * @return a list of messages, or empty list if there is no message.
+   * List is sorted by time descending.
+   */
+  public List<Message> getAllMessages(){
+    List<Message> messages = new ArrayList<>();
+
+    Query query = new Query("Message")
+            .addSort("timestamp", SortDirection.DESCENDING);
+
+    return prepareMessages(query);
+  }
+
+  /**
+   * Prepare messages from retrieved data.
+   *
+   * @return a list of messages, or empty list if there is no message.
+   * List is sorted by time descending.
+   */
+  public List<Message> prepareMessages(Query query){
+    List<Message> messages = new ArrayList<>();
+
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
 
@@ -79,6 +108,7 @@ public class Datastore {
 
     return messages;
   }
+
 
   /** Stores the User in Datastore. */
   public void storeUser(User user) {
@@ -108,3 +138,12 @@ public class Datastore {
     return user;
   }
 }
+
+  /** Returns the total number of messages for all users. */
+  public int getTotalMessageCount(){
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    return results.countEntities(FetchOptions.Builder.withLimit(1000));
+  }
+}
+
