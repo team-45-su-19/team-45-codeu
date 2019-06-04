@@ -138,7 +138,6 @@ public class Datastore {
 
     return user;
   }
-<<<<<<< HEAD
 
   public Set<String> getUsers(){
     Set<String> users = new HashSet<>();
@@ -149,8 +148,6 @@ public class Datastore {
     }
     return users;
   }
-=======
->>>>>>> origin
 
   /** Returns the total number of messages for all users. */
   public int getTotalMessageCount(){
