@@ -44,9 +44,13 @@ public class AboutMeServlet extends HttpServlet {
       return;
     }
 
-    String aboutMe = "This is " + user + "'s about me.";
+    User userData = datastore.getUser(user);
 
-    response.getOutputStream().println(aboutMe);
+    if(userData == null || userData.getAboutMe() == null) {
+      return;
+    }
+
+    response.getOutputStream().println(userData.getAboutMe());
   }
 
   @Override
