@@ -97,6 +97,8 @@ function buildNavigation(){
 function initiateUI(){
   buildNavigation();
   if (typeof buildUI === "function"){ // check that buildUI() exists
-      buildUI();
+    buildUI();
+  } else {
+    console.info("INFO: buildUI() is not defined");
   }
 }
