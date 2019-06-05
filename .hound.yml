@@ -3,3 +3,6 @@ erblint:
 
 stylelint:
   enabled: true
+
+jshint:
+  config_file: .jshintrc
