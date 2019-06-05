@@ -1,6 +1,7 @@
 package com.google.codeu.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,13 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.codeu.data.Datastore;
-import com.google.gson.JsonObject;
+import com.google.codeu.data.Message;
+import com.google.gson.Gson;
 
 /**
- * Handles fetching site statistics.
+ * Handles fetching all messages for the public feed.
  */
-@WebServlet("/stats")
-public class StatsPageServlet extends HttpServlet{
+@WebServlet("/feed")
+public class MessageFeedServlet extends HttpServlet{
 
   private Datastore datastore;
 
@@ -24,21 +26,18 @@ public class StatsPageServlet extends HttpServlet{
   }
 
   /**
-   * Responds with site statistics in JSON.
+   * Responds with a JSON representation of Message data for all users.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+          throws IOException {
 
     response.setContentType("application/json");
 
-    int messageCount = datastore.getTotalMessageCount();
-    int userCount = datastore.getTotalUserCount();
+    List<Message> messages = datastore.getAllMessages();
+    Gson gson = new Gson();
+    String json = gson.toJson(messages);
 
-    JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("messageCount", messageCount);
-    jsonObject.addProperty("userCount", userCount);
-
-    response.getOutputStream().println(jsonObject.toString());
+    response.getOutputStream().println(json);
   }
 }
