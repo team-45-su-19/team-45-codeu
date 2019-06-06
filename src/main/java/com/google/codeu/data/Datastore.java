@@ -162,10 +162,11 @@ public class Datastore {
   public double getAverageMessageLength(){
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
+    List<Entity> resultsList = results.asList(FetchOptions.Builder.withDefaults());
     Integer sum = 0;
-    for (Entity message : results.asList(FetchOptions.Builder.withDefaults())){
+    for (Entity message : resultsList){
       sum += message.getProperty("text").toString().length();
     }
-    return (sum == 0) ? 0 : sum.doubleValue()/results.countEntities(FetchOptions.Builder.withDefaults());
+    return (resultsList.size() == 0) ? 0 : sum.doubleValue()/resultsList.size();
   }
 }
