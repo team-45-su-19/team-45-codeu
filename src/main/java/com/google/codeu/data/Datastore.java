@@ -144,7 +144,7 @@ public class Datastore {
   public int getTotalMessageCount(){
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
-    return results.countEntities(FetchOptions.Builder.withLimit(1000));
+    return results.countEntities(FetchOptions.Builder.withDefaults());
   }
 
   /** Returns the total number of users with messages. */
@@ -152,7 +152,7 @@ public class Datastore {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
     Set users = new HashSet();
-    for (Entity message : results.asList(FetchOptions.Builder.withLimit(1000))){
+    for (Entity message : results.asList(FetchOptions.Builder.withDefaults())){
       users.add(message.getProperty("user"));
     }
     return users.size();
@@ -163,9 +163,9 @@ public class Datastore {
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
     Integer sum = 0;
-    for (Entity message : results.asList(FetchOptions.Builder.withLimit(1000))){
+    for (Entity message : results.asList(FetchOptions.Builder.withDefaults())){
       sum += message.getProperty("text").toString().length();
     }
-    return sum.doubleValue()/results.asList(FetchOptions.Builder.withLimit(1000)).size();
+    return (sum == 0) ? 0 : sum.doubleValue()/results.countEntities(FetchOptions.Builder.withDefaults());
   }
 }
