@@ -47,6 +47,7 @@
 }
 
 /* Change the height of the SimpleMDE */
-.CodeMirror, .CodeMirror-scroll {
-	min-height: 200px;
+.CodeMirror,
+.CodeMirror-scroll {
+  min-height: 200px;
 }
