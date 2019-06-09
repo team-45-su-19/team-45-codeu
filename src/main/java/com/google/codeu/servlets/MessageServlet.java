@@ -81,29 +81,10 @@ public class MessageServlet extends HttpServlet {
     String user = userService.getCurrentUser().getEmail();
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
 
-    String regex = "(https?://\\S+\\.(png|jpg))";
-    Pattern imageRegex = Pattern.compile(regex);
-    Matcher imageURLMatcher = imageRegex.matcher(userText);
+    String mediaRegex = "(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))";
+    String transformedText = displayMedia(mediaRegex, userText);
 
-    String replacement;
-    String textWithImagesReplaced = userText;
-
-    while (imageURLMatcher.find()) {
-      String imageURL = imageURLMatcher.group(1);
-      System.out.println("An image url found: " + imageURL);
-
-      if (isValidURL(imageURL)) {
-        replacement = "<img src=" + imageURL + " />";
-        textWithImagesReplaced = textWithImagesReplaced.replace(imageURL, replacement);
-        //System.out.println("URL changed with src tag: " + textWithImagesReplaced);
-      } else {
-        replacement = imageURL + " (Not a valid URL)";
-        textWithImagesReplaced = textWithImagesReplaced.replace(imageURL, replacement);
-        //System.out.println("invalid URL note: " + textWithImagesReplaced);
-      }
-    }
-
-    Message message = new Message(user, textWithImagesReplaced);
+    Message message = new Message(user, transformedText);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
@@ -117,6 +98,41 @@ public class MessageServlet extends HttpServlet {
       System.out.println("Invalid image URL provided");
       return false;
     }
+  }
+
+  public String displayMedia(String regexURL, String userInput) {
+    String replacement;
+    String textWithMediaReplaced = userInput;
+
+    Pattern pattern = Pattern.compile(regexURL);
+    Matcher matcher = pattern.matcher(userInput);
+
+    while (matcher.find()) {
+      String mediaURL = matcher.group(1);
+      System.out.println("A media url found: " + mediaURL);
+
+      if (isValidURL(mediaURL)) {
+        if (mediaURL.endsWith(".mp3")) {
+          replacement = "<audio controls src=" + mediaURL + " />";
+          textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
+          System.out.println("URL changed with audio tag: " + textWithMediaReplaced);
+        } else if (mediaURL.endsWith(".mp4")) {
+          replacement = "<video controls src=" + mediaURL + " />";
+          textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
+          System.out.println("URL changed with video tag: " + textWithMediaReplaced);
+        } else {
+          replacement = "<img src=" + mediaURL + " />";
+          textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
+          System.out.println("URL changed with image tag: " + textWithMediaReplaced);
+        }
+      } else {
+        replacement = mediaURL + " (Not a valid URL)";
+        textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
+        System.out.println("Invalid URL note: " + textWithMediaReplaced);
+      }
+    }
+
+    return textWithMediaReplaced;
   }
 }
 
