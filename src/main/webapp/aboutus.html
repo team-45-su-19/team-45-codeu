@@ -19,10 +19,13 @@ limitations under the License.
   <head>
     <meta charset="UTF-8">
     <title>About Us</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBawpEnaMnt7vwsqGV_SaUEW7oppEDHJvg"></script>
+    <script src="/js/map-loader.js"></script>
     <script src="/js/navigation-loader.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/map.css">
   </head>
-  <body onload="initiateUI();">
+  <body onload="initializeUIWithMap();">
     <nav>
       <ul id="navigation"></ul>
     </nav>
@@ -69,5 +72,8 @@ limitations under the License.
       <li>Aspirational Hobby: Play Jazz ~~</li>
       <li>Ask me About: Music! (Theories, playing an instrument, musicals, etc :p)</li>
     </ul>
+    <br>
+    <h2>Our Favorite Food courts!</h2>
+      <div id="map"></div>
   </body>
 </html>
