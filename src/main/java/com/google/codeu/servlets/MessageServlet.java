@@ -95,11 +95,11 @@ public class MessageServlet extends HttpServlet {
       if (isValidURL(imageURL)) {
         replacement = "<img src=" + imageURL + " />";
         textWithImagesReplaced = textWithImagesReplaced.replace(imageURL, replacement);
-        System.out.println("URL changed with src tag: " + textWithImagesReplaced);
+        //System.out.println("URL changed with src tag: " + textWithImagesReplaced);
       } else {
         replacement = imageURL + " (Not a valid URL)";
         textWithImagesReplaced = textWithImagesReplaced.replace(imageURL, replacement);
-        System.out.println("invalid URL note: " + textWithImagesReplaced);
+        //System.out.println("invalid URL note: " + textWithImagesReplaced);
       }
     }
 
