@@ -25,7 +25,7 @@ public class Message {
   private String user;
   private String text;
   private long timestamp;
-
+  private String location;
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
@@ -39,6 +39,19 @@ public class Message {
     this.user = user;
     this.text = text;
     this.timestamp = timestamp;
+  }
+
+  public Message(String user, String text, String location) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis());
+    this.location = location;
+  }
+
+  public Message(UUID id, String user, String text, long timestamp, String location) {
+    this.id = id;
+    this.user = user;
+    this.text = text;
+    this.timestamp = timestamp;
+    this.location = location;
   }
 
   public UUID getId() {
@@ -55,5 +68,9 @@ public class Message {
 
   public long getTimestamp() {
     return timestamp;
+  }
+
+  public String getLocation() {
+    return location;
   }
 }

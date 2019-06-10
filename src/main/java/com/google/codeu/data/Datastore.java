@@ -45,6 +45,7 @@ public class Datastore {
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
+    messageEntity.setProperty("location", message.getLocation());
 
     datastore.put(messageEntity);
   }
@@ -56,8 +57,6 @@ public class Datastore {
    *     message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
-    List<Message> messages = new ArrayList<>();
-
     Query query = new Query("Message")
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
             .addSort("timestamp", SortDirection.DESCENDING);
@@ -72,8 +71,6 @@ public class Datastore {
    * List is sorted by time descending.
    */
   public List<Message> getAllMessages(){
-    List<Message> messages = new ArrayList<>();
-
     Query query = new Query("Message")
             .addSort("timestamp", SortDirection.DESCENDING);
 
@@ -98,8 +95,9 @@ public class Datastore {
         String user = (String) entity.getProperty("user");
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
+        String location = (String) entity.getProperty("location");
 
-        Message message = new Message(id, user, text, timestamp);
+        Message message = new Message(id, user, text, timestamp, location);
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");

@@ -38,6 +38,10 @@ limitations under the License.
       <br/>
       <textarea name="text" id="message-input"></textarea>
       <br/>
+      <input type="text" name="location_input" id="location_input" value="Type to search for location...">
+      <button type="button" onclick="myFunction()">Try it</button>
+      <br/>
+      <p name ="location" id="location"></p>
       <input type="submit" value="Submit">
     </form>
     <hr/>
@@ -53,5 +57,11 @@ limitations under the License.
       </form>
     </div>
 
+    <script>
+      function myFunction() {
+        var x = document.getElementById("location_input").value;
+        document.getElementById("location").innerHTML = x;
+      }
+    </script>
   </body>
 </html>
