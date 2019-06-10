@@ -111,7 +111,6 @@ public class Datastore {
     return messages;
   }
 
-
   /** Stores the User in Datastore. */
   public void storeUser(User user) {
     Entity userEntity = new Entity("User", user.getEmail());
@@ -140,6 +139,16 @@ public class Datastore {
     return user;
   }
 
+  public Set<String> getUsers(){
+    Set<String> users = new HashSet<>();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    for(Entity entity : results.asIterable()) {
+        users.add((String) entity.getProperty("user"));
+    }
+    return users;
+  }
+
   /** Returns the total number of messages for all users. */
   public int getTotalMessageCount(){
     Query query = new Query("Message");
@@ -162,10 +171,11 @@ public class Datastore {
   public double getAverageMessageLength(){
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
+    List<Entity> resultsList = results.asList(FetchOptions.Builder.withDefaults());
     Integer sum = 0;
-    for (Entity message : results.asList(FetchOptions.Builder.withDefaults())){
+    for (Entity message : resultsList){
       sum += message.getProperty("text").toString().length();
     }
-    return (sum == 0) ? 0 : sum.doubleValue()/results.countEntities(FetchOptions.Builder.withDefaults());
+    return (resultsList.size() == 0) ? 0 : sum.doubleValue()/resultsList.size();
   }
 }
