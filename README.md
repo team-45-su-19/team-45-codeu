@@ -1,7 +1,7 @@
 # codeu-starter-project
 This is the shared repository for team 45 for the Summer '19 APAC CodeU cohort. 
 
-Our project is deloyed [here](http://su19-codeu-45-721.appspot.com/).
+Our project is deloyed [here](https://su19-codeu-45-721.appspot.com/).
 
 Find everything you need at the [CodeU website](https://sites.google.com/codeustudents.com/summer-2019/codeu-toolbox).
 
