@@ -107,7 +107,7 @@ function fetchLocation() {
       for (var i = 0; i < results.length; i++) {
         createMarker(results[i]);
       }
-      console.log(results[0].geometry.location)
+      console.log(results[0].geometry.location);
     }
   });
 }
