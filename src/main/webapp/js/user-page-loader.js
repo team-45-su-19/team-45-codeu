@@ -17,6 +17,7 @@
 // Get ?user=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
 const parameterUsername = urlParams.get('user');
+var map;
 
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.
 if (!parameterUsername) {
@@ -86,10 +87,80 @@ function fetchMessages() {
       });
 }
 
+function createMap(){
+  map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 1.34, lng: 103.8},
+        zoom: 16
+      });
+}
+
+function fetchLocation() {
+  var request = {
+      query: document.getElementById("location_input").value,
+      fields: ['name', 'geometry'],
+    };
+
+  service = new google.maps.places.PlacesService(map);
+  service.findPlaceFromQuery(request, function(results, status) {
+
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        createMarker(results[i]);
+      }
+      console.log(results[0].geometry.location)
+    }
+  });
+}
+
+function createMarker(place) {
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location
+  });
+  var infoWindow = new google.maps.InfoWindow();
+
+  google.maps.event.addListener(marker, 'click', function() {
+    infoWindow.setContent(place.name);
+    infoWindow.open(map, this);
+  });
+}
+
+function getCurrentLoc(){
+  var infoWindow = new google.maps.InfoWindow();
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      infoWindow.open(map);
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+  infoWindow.open(map);
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
+  createMap();
+  getCurrentLoc();
   fetchMessages();
   fetchAboutMe();
 }

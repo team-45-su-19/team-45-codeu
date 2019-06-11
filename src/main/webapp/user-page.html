@@ -21,8 +21,16 @@ limitations under the License.
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/user-page.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBawpEnaMnt7vwsqGV_SaUEW7oppEDHJvg&libraries=places"></script>
     <script src="/js/build-message-div.js"></script>
     <script src="/js/user-page-loader.js"></script>
+    <style>
+      #map{
+        width: 500px;
+        height: 500px;
+        border: thin solid black;
+      }
+    </style>
   </head>
   <body onload="buildUI();">
     <nav>
@@ -39,9 +47,9 @@ limitations under the License.
       <textarea name="text" id="message-input"></textarea>
       <br/>
       <input type="text" name="location_input" id="location_input" value="Type to search for location...">
-      <button type="button" onclick="myFunction()">Try it</button>
+      <button type="button" onclick="fetchLocation()">Add location</button>
       <br/>
-      <p name ="location" id="location"></p>
+      <div id="map"></div>
       <input type="submit" value="Submit">
     </form>
     <hr/>
@@ -57,11 +65,5 @@ limitations under the License.
       </form>
     </div>
 
-    <script>
-      function myFunction() {
-        var x = document.getElementById("location_input").value;
-        document.getElementById("location").innerHTML = x;
-      }
-    </script>
   </body>
 </html>
