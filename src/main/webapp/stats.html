@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Stats</title>
-  <link rel="stylesheet" href="/css/main.css">
-  <script src="/js/stats-loader.js"></script>
-</head>
-<body onload="buildUI()">
-<div id="content">
-  <h1>Site Statistics</h1>
-  <hr/>
-  <div id="stats-container">Loading...</div>
-</div>
-</body>
+  <head>
+    <title>Stats</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/navigation-loader.js"></script>
+    <script src="/js/stats-loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  </head>
+  <body onload="initiateUI();">
+      <nav>
+        <ul id="navigation"></ul>
+      </nav>
+    <div id="content">
+      <h1>Site Statistics</h1>
+      <hr/>
+      <div id="stats-container">Loading...</div>
+      <div id="stats-chart">Loading...</div>
+    </div>
+  </body>
 </html>
