@@ -14,7 +14,7 @@
         fetchMarkers();
         var heatmapbutton = document.getElementById("heatmap");
         heatmapbutton.onclick = showHeatMap;
-    }
+    };
 
     function fetchMarkers(){
         fetch('/markers').then((response) => {
@@ -49,7 +49,7 @@
         var heatmapData = [];
         pos.forEach((marker)=>{
             heatmapData.push(new google.maps.LatLng(marker[0], marker[1]));
-        })
+        });
         var heatmap = new google.maps.visualization.HeatmapLayer({
             data: heatmapData
         });
