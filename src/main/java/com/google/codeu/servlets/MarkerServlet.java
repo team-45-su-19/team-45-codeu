@@ -14,19 +14,24 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 
+/**Handles fetching and saving markers for the map.*/
 @WebServlet("/markers")
 public class MarkerServlet extends HttpServlet {
+    /**
+     * Responds with a JSON representation of markers. 
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
-
         List<Marker> markers = getMarkers();
         Gson gson = new Gson();
         String json = gson.toJson(markers);
-
         response.getOutputStream().println(json);
     }
 
+    /**
+     * Stores a marker.
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
         double lat = Double.parseDouble(request.getParameter("lat"));
@@ -59,7 +64,7 @@ public class MarkerServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(markerEntity);
     }
-    private class Marker {
+    private static class Marker {
         double lat;
         double lng;
 
