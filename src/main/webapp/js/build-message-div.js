@@ -19,6 +19,7 @@ function buildMessageDiv(message){
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
+  //bodyDiv.innerHTML = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
   bodyDiv.innerHTML = message.text;
 
   const messageDiv = document.createElement('div');

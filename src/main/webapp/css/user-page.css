@@ -51,3 +51,9 @@
 .hidden {
   display: none;
 }
+
+/* Change the height of the SimpleMDE */
+.CodeMirror,
+.CodeMirror-scroll {
+  min-height: 200px;
+}
