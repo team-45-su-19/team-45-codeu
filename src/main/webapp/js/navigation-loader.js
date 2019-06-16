@@ -14,6 +14,28 @@
  * limitations under the License.
  */
 
+ /**
+  * Adds the default navigation links to the navigation bar.
+  * (home, about, feed, statistics)
+  */
+function addDefaultNavigation() {
+  const navigationElement = document.getElementById('navigation');
+  if (!navigationElement) {
+    console.warn('Navigation element not found!');
+    return;
+  }
+  navigationElement.appendChild(
+      createListItem(createLink('/', 'Home')));
+  navigationElement.appendChild(
+      createListItem(createLink('/aboutus.html', 'About Our Team')));
+  navigationElement.appendChild(
+      createListItem(createLink('/feed.html', 'Feed')));
+  navigationElement.appendChild(
+      createListItem(createLink('/community.html', 'Community')));
+  navigationElement.appendChild(
+      createListItem(createLink('/stats.html', 'Statistics')));
+}
+
 /**
  * Adds a login or logout link to the page, depending on whether the user is
  * already logged in.
@@ -65,4 +87,20 @@ function createLink(url, text) {
   linkElement.appendChild(document.createTextNode(text));
   linkElement.href = url;
   return linkElement;
+}
+
+// Constructs navigation bar
+function buildNavigation(){
+  addDefaultNavigation();
+  addLoginOrLogoutLinkToNavigation();
+}
+
+// Constructs navigation bar and builds UI
+function initiateUI(){
+  buildNavigation();
+  if (typeof buildUI === "function"){ // check that buildUI() exists
+    buildUI();
+  } else {
+    console.info("INFO: buildUI() is not defined");
+  }
 }
