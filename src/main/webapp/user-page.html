@@ -21,11 +21,15 @@ limitations under the License.
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/map.css">
     <link rel="stylesheet" href="/css/user-page.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBawpEnaMnt7vwsqGV_SaUEW7oppEDHJvg&libraries=places"></script>
     <script src="/js/navigation-loader.js"></script>
     <script src="/js/build-message-div.js"></script>
     <script src="/js/user-page-loader.js"></script>
+    <script src="/js/map-loader.js"></script>
+
   </head>
   <body onload="initiateUI();">
     <nav>
@@ -38,6 +42,10 @@ limitations under the License.
       <br/>
       <textarea name="text" id="message-input"></textarea>
       <br/>
+      <input type="text" name="location_input" id="location_input" value="Type to search for location...">
+      <button type="button" onclick="searchLocationByText()">Search</button>
+      <br/>
+      <div id="map"></div>
       <input type="submit" value="Submit">
     </form>
     <hr/>
