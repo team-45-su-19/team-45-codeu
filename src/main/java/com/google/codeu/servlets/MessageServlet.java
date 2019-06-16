@@ -29,6 +29,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jsoup.nodes.Document.OutputSettings;
 
 /** Handles fetching and saving {@link Message} instances. */
@@ -81,12 +84,41 @@ public class MessageServlet extends HttpServlet {
     String userText = Jsoup.clean(request.getParameter("text"), "", Whitelist.none(), new OutputSettings().prettyPrint(false));
 
     String regex = "(https?://\\S+\\.(png|jpg))";
-    String replacement = "<img src=\"$1\" />";
-    String textWithImagesReplaced = userText.replaceAll(regex, replacement);
+    Pattern imageRegex = Pattern.compile(regex);
+    Matcher imageURLMatcher = imageRegex.matcher(userText);
+
+    String replacement;
+    String textWithImagesReplaced = userText;
+
+    while (imageURLMatcher.find()) {
+      String imageURL = imageURLMatcher.group(1);
+      System.out.println("An image url found: " + imageURL);
+
+      if (isValidURL(imageURL)) {
+        replacement = "<img src=" + imageURL + " />";
+        textWithImagesReplaced = textWithImagesReplaced.replace(imageURL, replacement);
+        System.out.println("URL changed with src tag: " + textWithImagesReplaced);
+      } else {
+        replacement = imageURL + " (Not a valid URL)";
+        textWithImagesReplaced = textWithImagesReplaced.replace(imageURL, replacement);
+        System.out.println("invalid URL note: " + textWithImagesReplaced);
+      }
+    }
 
     Message message = new Message(user, textWithImagesReplaced);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
   }
+
+  public boolean isValidURL(String url) {
+    try {
+      new URL(url).toURI();
+      return true;
+    } catch (Exception e) {
+      System.out.println("Invalid image URL provided");
+      return false;
+    }
+  }
 }
+
