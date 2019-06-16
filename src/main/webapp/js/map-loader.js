@@ -12,17 +12,17 @@
   }
 
   exports.createMapForAboutUsPage = function(){
-    createDefaultMap()
+    createDefaultMap();
     createMarker(1.280547, 103.844502, 'Maxwell Food Centre', '1 Kadayanallur St 069184');
     createMarker(1.308398, 103.885808, 'Old Airport Road Food Centre', '51 Old Airport Rd, Singapore 390051');
     createMarker(1.331814, 103.938867, 'Bedok 85 Market', '85 Bedok North Street 4, Singapore 460085');
-  }
+  };
 
   exports.createMapForUserPage = function(){
-    createDefaultMap()
+    createDefaultMap();
     map.setZoom(16);
     getCurrentLoc();
-  }
+  };
 
   exports.searchLocationByText = function() {
     var request = {
@@ -35,21 +35,28 @@
 
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         clearExistingMarkers();
-        for (var i = 0; i < results.length; i++) {
-          createMarkerWithSubmit(results[i]);
+        if(results.length == 0){
+          alert("No result. Please check your input.");
+        }
+        else{
+          for (var i = 0; i < results.length; i++) {
+            createMarkerWithSubmit(results[i]);
+          }
         }
       }
+      else{
+        alert("Sorry. Search not available for now:(");
+      }
     });
-    console.log(currentPos);
     map.setCenter(currentPos);
-  }
+  };
 
   /* Clear exiting marker if there are markers left from previous search. */
   function clearExistingMarkers(){
     for(var i =0; i < editMarkers.length; i++){
       editMarkers[i].setMap(null);
     }
-    editMarkers = new Array();
+    editMarkers = [];
   }
 
   /** Creates a marker that shows a textbox the user can confirm the location and submit. */
@@ -165,7 +172,7 @@
                           'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
   }
-})(window)
+})(window);
 
 function initializeAboutUsPageWithMap(){
   initiateUI();
