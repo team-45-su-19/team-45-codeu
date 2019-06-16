@@ -22,6 +22,7 @@ import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -83,7 +84,7 @@ public class MessageServlet extends HttpServlet {
     // Allow new line characters
     String userText = Jsoup.clean(request.getParameter("text"), "", Whitelist.none(), new OutputSettings().prettyPrint(false));
 
-    String mediaRegex = "(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))";
+    String mediaRegex = "\\s(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))\\s";
     String transformedText = displayMedia(mediaRegex, userText);
 
     Message message = new Message(user, transformedText);
@@ -109,20 +110,23 @@ public class MessageServlet extends HttpServlet {
     Pattern pattern = Pattern.compile(regexURL);
     Matcher matcher = pattern.matcher(userInput);
 
+    List<String> imageExtensions = Arrays.asList("png ", "jpg ", "bmp ", "gif ", "svg ");
+    System.out.println("List is: " + imageExtensions.toString());
+
     while (matcher.find()) {
-      String mediaURL = matcher.group(1);
+      String mediaURL = matcher.group(0);
       System.out.println("A media url found: " + mediaURL);
 
       if (isValidURL(mediaURL)) {
-        if (mediaURL.endsWith(".mp3")) {
+        if (mediaURL.endsWith(".mp3 ")) {
           replacement = "<audio controls src=" + mediaURL + " />";
           textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
           System.out.println("URL changed with audio tag: " + textWithMediaReplaced);
-        } else if (mediaURL.endsWith(".mp4")) {
+        } else if (mediaURL.endsWith(".mp4 ")) {
           replacement = "<video controls src=" + mediaURL + " />";
           textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
           System.out.println("URL changed with video tag: " + textWithMediaReplaced);
-        } else {
+        } else if (imageExtensions.stream().anyMatch(ext -> mediaURL.endsWith(ext))) {
           replacement = "<img src=" + mediaURL + " />";
           textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
           System.out.println("URL changed with image tag: " + textWithMediaReplaced);
