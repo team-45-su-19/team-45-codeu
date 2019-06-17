@@ -43,13 +43,23 @@ limitations under the License.
     <hr/>
 
     <div id="message-container">Loading...</div>
-
+    <br/>
     <div id="about-me-container">Loading...</div>
     <div id="about-me-form" class="hidden">
       <form action="/about" method="POST">
         <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
         <br/>
         <input type="submit" value="Submit">
+      </form>
+    </div>
+    <br/>
+    <div id="profile-pic-container">No profile pic...</div>
+    <div id="profile-pic-form">
+      <form id="upload-dp" class="hidden" method="POST" enctype="multipart/form-data">
+        <p>Upload your profile picture:</p>
+        <input type="file" name="image">
+        <br/><br/>
+        <button>Submit</button>
       </form>
     </div>
 

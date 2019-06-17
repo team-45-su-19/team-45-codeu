@@ -99,11 +99,25 @@ function loadMarkdownEditor() {
   });
 }
 
+/** Fetches Blobstore url then displays form that supports image upload. */
+function fetchBlobstoreUrlAndShowForm() {
+  fetch('/blobstore-upload-url')
+    .then((response) => {
+      return response.text();
+    })
+    .then((imageUploadUrl) => {
+      const messageForm = document.getElementById('upload-dp');
+      messageForm.action = imageUploadUrl;
+      messageForm.classList.remove('hidden');
+    });
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
   fetchMessages();
   fetchAboutMe();
+  fetchBlobstoreUrlAndShowForm();
   loadMarkdownEditor();
 }

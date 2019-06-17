@@ -110,8 +110,7 @@ public class MessageServlet extends HttpServlet {
     Pattern pattern = Pattern.compile(regexURL);
     Matcher matcher = pattern.matcher(userInput);
 
-    List<String> imageExtensions = Arrays.asList("png ", "jpg ", "bmp ", "gif ", "svg ");
-    System.out.println("List is: " + imageExtensions.toString());
+    List<String> imageExtensions = Arrays.asList(".png ", ".jpg ", ".bmp ", ".gif ", ".svg ");
 
     while (matcher.find()) {
       String mediaURL = matcher.group(0);

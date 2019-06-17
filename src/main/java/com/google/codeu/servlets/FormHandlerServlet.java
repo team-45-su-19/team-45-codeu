@@ -26,11 +26,37 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/my-form-handler")
 public class FormHandlerServlet extends HttpServlet {
 
+//  private Datastore datastore;
+//
+//  @Override
+//  public void init() {
+//    datastore = new Datastore();
+//  }
+//
+//  @Override
+//  public void doGet(HttpServletRequest request, HttpServletResponse response)
+//      throws IOException {
+//
+//    response.setContentType("text/html");
+//
+//    String user = request.getParameter("user");
+//
+//    if(user == null || user.equals("")) {
+//      // Request is invalid, return empty response
+//      return;
+//    }
+//
+//    User userData = datastore.getUser(user);
+//
+//    if(userData == null || userData.getProfilePic() == null) {
+//      return;
+//    }
+//
+//    response.getOutputStream().println(userData.getProfilePic());
+//  }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    // Get the message entered by the user.
-    String message = request.getParameter("message");
 
     // Get the URL of the image that the user uploaded to Blobstore.
     String imageUrl = getUploadedFileUrl(request, "image");
@@ -42,8 +68,25 @@ public class FormHandlerServlet extends HttpServlet {
     out.println("<a href=\"" + imageUrl + "\">");
     out.println("<img src=\"" + imageUrl + "\" />");
     out.println("</a>");
-    out.println("<p>Here's the text you entered:</p>");
-    out.println(message);
+
+
+    // Store image url in datastore
+//    UserService userService = UserServiceFactory.getUserService();
+//    if (!userService.isUserLoggedIn()) {
+//      response.sendRedirect("/index.html");
+//      return;
+//    }
+//
+//    String userEmail = userService.getCurrentUser().getEmail();
+//    String profilePic = Jsoup.clean(imageUrl, Whitelist.none());
+//
+//    System.out.println("Saving profile pic for " + userEmail);
+//
+//    User user = new User(userEmail, aboutMe);
+//    datastore.storeUser(user);
+//
+//    response.sendRedirect("/user-page.html?user=" + userEmail);
+
   }
 
   /**
