@@ -84,7 +84,7 @@ public class MessageServlet extends HttpServlet {
     // Allow new line characters
     String userText = Jsoup.clean(request.getParameter("text"), "", Whitelist.none(), new OutputSettings().prettyPrint(false));
 
-    String mediaRegex = "\\s(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))\\s";
+    String mediaRegex = "\\s(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))(\\s|$|\\n)";
     String transformedText = displayMedia(mediaRegex, userText);
 
     Message message = new Message(user, transformedText);
