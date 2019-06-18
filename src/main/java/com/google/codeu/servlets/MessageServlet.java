@@ -110,19 +110,18 @@ public class MessageServlet extends HttpServlet {
     Pattern pattern = Pattern.compile(regexURL);
     Matcher matcher = pattern.matcher(userInput);
 
-    List<String> imageExtensions = Arrays.asList("png ", "jpg ", "bmp ", "gif ", "svg ");
-    System.out.println("List is: " + imageExtensions.toString());
+    List<String> imageExtensions = Arrays.asList(".png", ".jpg", ".bmp", ".gif", ".svg");
 
     while (matcher.find()) {
-      String mediaURL = matcher.group(0);
+      String mediaURL = (matcher.group(0)).trim();
       System.out.println("A media url found: " + mediaURL);
 
       if (isValidURL(mediaURL)) {
-        if (mediaURL.endsWith(".mp3 ")) {
+        if (mediaURL.endsWith(".mp3")) {
           replacement = "<audio controls src=" + mediaURL + " />";
           textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
           System.out.println("URL changed with audio tag: " + textWithMediaReplaced);
-        } else if (mediaURL.endsWith(".mp4 ")) {
+        } else if (mediaURL.endsWith(".mp4")) {
           replacement = "<video controls src=" + mediaURL + " />";
           textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
           System.out.println("URL changed with video tag: " + textWithMediaReplaced);
