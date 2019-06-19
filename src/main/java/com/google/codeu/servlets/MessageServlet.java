@@ -113,7 +113,7 @@ public class MessageServlet extends HttpServlet {
     List<String> imageExtensions = Arrays.asList(".png", ".jpg", ".bmp", ".gif", ".svg");
 
     while (matcher.find()) {
-      String mediaURL = (matcher.group(0)).trim();
+      String mediaURL = matcher.group(0);
       System.out.println("A media url found: " + mediaURL);
 
       if (isValidURL(mediaURL)) {
