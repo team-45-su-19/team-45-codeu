@@ -24,8 +24,6 @@ function addLandmark(map, lat, lng, title, address) {
   });
 }
 
-
-function initializeUIWithMap(){
-  initiateUI();
+function buildUI(){
   createMap();
 }
