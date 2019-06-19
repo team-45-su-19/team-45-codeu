@@ -22,6 +22,7 @@ import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jsoup.nodes.Document.OutputSettings;
 
 /** Handles fetching and saving {@link Message} instances. */
@@ -78,11 +82,62 @@ public class MessageServlet extends HttpServlet {
 
     String user = userService.getCurrentUser().getEmail();
     // Allow new line characters
-    String text = Jsoup.clean(request.getParameter("text"), "", Whitelist.none(),new OutputSettings().prettyPrint(false));
+    String userText = Jsoup.clean(request.getParameter("text"), "", Whitelist.none(), new OutputSettings().prettyPrint(false));
 
-    Message message = new Message(user, text);
+    String mediaRegex = "\\s(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))(\\s|$|\\n)";
+    String transformedText = displayMedia(mediaRegex, userText);
+
+    Message message = new Message(user, transformedText);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
   }
+
+  public boolean isValidURL(String url) {
+    try {
+      new URL(url).toURI();
+      return true;
+    } catch (Exception e) {
+      System.out.println("Invalid image URL provided");
+      return false;
+    }
+  }
+
+  public String displayMedia(String regexURL, String userInput) {
+    String replacement;
+    String textWithMediaReplaced = userInput;
+
+    Pattern pattern = Pattern.compile(regexURL);
+    Matcher matcher = pattern.matcher(userInput);
+
+    List<String> imageExtensions = Arrays.asList(".png", ".jpg", ".bmp", ".gif", ".svg");
+
+    while (matcher.find()) {
+      String mediaURL = matcher.group(0);
+      System.out.println("A media url found: " + mediaURL);
+
+      if (isValidURL(mediaURL)) {
+        if (mediaURL.endsWith(".mp3")) {
+          replacement = "<audio controls src=" + mediaURL + " />";
+          textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
+          System.out.println("URL changed with audio tag: " + textWithMediaReplaced);
+        } else if (mediaURL.endsWith(".mp4")) {
+          replacement = "<video controls src=" + mediaURL + " />";
+          textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
+          System.out.println("URL changed with video tag: " + textWithMediaReplaced);
+        } else if (imageExtensions.stream().anyMatch(ext -> mediaURL.endsWith(ext))) {
+          replacement = "<img src=" + mediaURL + " />";
+          textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
+          System.out.println("URL changed with image tag: " + textWithMediaReplaced);
+        }
+      } else {
+        replacement = mediaURL + " (Not a valid URL)";
+        textWithMediaReplaced = textWithMediaReplaced.replace(mediaURL, replacement);
+        System.out.println("Invalid URL note: " + textWithMediaReplaced);
+      }
+    }
+
+    return textWithMediaReplaced;
+  }
 }
+
