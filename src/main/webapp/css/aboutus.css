@@ -1,0 +1,7 @@
+@media (min-width: 992px) {
+  .about-heading .about-heading-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
