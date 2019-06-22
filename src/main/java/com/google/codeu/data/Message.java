@@ -25,6 +25,7 @@ public class Message {
   private String user;
   private String text;
   private long timestamp;
+  private double sentimentScore;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
@@ -41,6 +42,16 @@ public class Message {
     this.timestamp = timestamp;
   }
 
+  public Message(UUID id, String user, String text, long timestamp, double score) {
+    this(id, user, text, timestamp);
+    this.sentimentScore = score;
+  }
+
+  public Message(String user, String text, double score) {
+    this(user, text);
+    this.sentimentScore = score;
+  }
+
   public UUID getId() {
     return id;
   }
@@ -55,5 +66,9 @@ public class Message {
 
   public long getTimestamp() {
     return timestamp;
+  }
+
+  public double getSentimentScore() {
+    return sentimentScore;
   }
 }

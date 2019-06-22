@@ -12,6 +12,9 @@ function buildMessageDiv(message){
   timeDiv.classList.add('right-align');
   timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
 
+  const sentimentDiv= document.createElement('div');
+  sentimentDiv.appendChild(document.createTextNode('Sentiment Score: ' + message.sentimentScore.toPrecision(2)));
+
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(usernameDiv);
@@ -25,6 +28,7 @@ function buildMessageDiv(message){
   messageDiv.classList.add("message-div");
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
+  messageDiv.appendChild(sentimentDiv);
 
   return messageDiv;
 }

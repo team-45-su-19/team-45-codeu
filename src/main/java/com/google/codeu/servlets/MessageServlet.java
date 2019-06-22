@@ -21,6 +21,9 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -87,7 +90,12 @@ public class MessageServlet extends HttpServlet {
     String mediaRegex = "\\s(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))(\\s|$|\\n)";
     String transformedText = displayMedia(mediaRegex, userText);
 
-    Message message = new Message(user, transformedText);
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Document doc = Document.newBuilder().setContent(userText).setType(Document.Type.PLAIN_TEXT).build();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    double score = sentiment.getScore();
+    languageService.close();
+    Message message = new Message(user, transformedText, score);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
