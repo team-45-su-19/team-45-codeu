@@ -1,5 +1,8 @@
 # codeu-starter-project
-This is the shared repository for team 45 for the Summer '19 APAC CodeU cohort. 
+
+[![Build Status](https://travis-ci.com/team-45-su-19/team-45-codeu.svg?branch=master)](https://travis-ci.com/team-45-su-19/team-45-codeu)
+
+This is the shared repository for team 45 for the Summer '19 APAC CodeU cohort.
 
 Our project is deloyed [here](https://su19-codeu-45-721.appspot.com/).
 

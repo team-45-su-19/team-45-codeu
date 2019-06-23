@@ -65,14 +65,46 @@ function addLoginOrLogoutLinkToNavigation() {
       });
 }
 
+function highlightCurrent() {
+  var path = window.location.pathname.replace(/\.html.*/, "");
+  var navAElements = document.getElementsByClassName("nav-link text-uppercased text-expanded");
+  var navListElements = document.getElementsByClassName("nav-item px-lg-4");
+  if (path.includes("aboutus")) {
+    navAElements[1].appendChild(createSpan());
+    navListElements[1].classList.add("active");
+  } else if (path.includes("feed")) {
+    navAElements[2].appendChild(createSpan());
+    navListElements[2].classList.add("active");
+  } else if (path.includes("community")) {
+    navAElements[3].appendChild(createSpan());
+    navListElements[3].classList.add("active");
+  } else if (path.includes("stats")) {
+    navAElements[4].appendChild(createSpan());
+    navListElements[4].classList.add("active");
+  } else {
+    navAElements[0].appendChild(createSpan());
+    navListElements[0].classList.add("active");
+  }
+}
+
+function createSpan() {
+  const spanElement = document.createElement('span');
+  spanElement.appendChild(document.createTextNode("(current)"));
+  spanElement.classList.add("sr-only");
+  return spanElement;
+}
+
 /**
  * Creates an li element.
  * @param {Element} childElement
  * @return {Element} li element
  */
+
 function createListItem(childElement) {
   const listItemElement = document.createElement('li');
   listItemElement.appendChild(childElement);
+  listItemElement.classList.add("nav-item");
+  listItemElement.classList.add("px-lg-4");
   return listItemElement;
 }
 
@@ -86,6 +118,9 @@ function createLink(url, text) {
   const linkElement = document.createElement('a');
   linkElement.appendChild(document.createTextNode(text));
   linkElement.href = url;
+  linkElement.classList.add("nav-link")
+  linkElement.classList.add("text-uppercased")
+  linkElement.classList.add("text-expanded")
   return linkElement;
 }
 
@@ -93,6 +128,7 @@ function createLink(url, text) {
 function buildNavigation(){
   addDefaultNavigation();
   addLoginOrLogoutLinkToNavigation();
+  highlightCurrent();
 }
 
 // Constructs navigation bar and builds UI
