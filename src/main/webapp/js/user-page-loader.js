@@ -79,10 +79,6 @@ function fetchMessages() {
         } else {
           messagesContainer.innerHTML = '';
         }
-        messages.forEach((message) => {
-          const messageDiv = buildMessageDiv(message);
-          messagesContainer.appendChild(messageDiv);
-        });
       });
 }
 
