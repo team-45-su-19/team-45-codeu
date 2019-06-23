@@ -79,6 +79,7 @@ function fetchMessages() {
         } else {
           messagesContainer.innerHTML = '';
         }
+        messagesContainer.appendChild(buildTimeline(messages));
       });
 }
 
