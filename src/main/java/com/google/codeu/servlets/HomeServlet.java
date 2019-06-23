@@ -19,14 +19,14 @@ public class HomeServlet extends HttpServlet {
 
   /**
    * Returns HTML that contains a form. The form submits to Blobstore,
-   * which redirects to our /my-form-handler, which is handled by FormHandlerServlet.
+   * which redirects to our /image-form-handler, which is handled by ImageHandlerServlet.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     // Get the Blobstore URL
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    String uploadUrl = blobstoreService.createUploadUrl("/my-form-handler") ;
+    String uploadUrl = blobstoreService.createUploadUrl("/image-form-handler") ;
 
     response.setContentType("text/html");
 
