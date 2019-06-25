@@ -2,7 +2,8 @@
 function createMap(){
   const map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 1.34, lng: 103.8},
-    zoom: 11
+    zoom: 11,
+    fullscreenControlOptions: {position: google.maps.ControlPosition.LEFT_TOP}
   });
   addLandmark(map, 1.280547, 103.844502, 'Maxwell Food Centre', '1 Kadayanallur St 069184');
   addLandmark(map, 1.308398, 103.885808, 'Old Airport Road Food Centre', '51 Old Airport Rd, Singapore 390051');
