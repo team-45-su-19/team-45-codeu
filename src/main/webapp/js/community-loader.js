@@ -23,6 +23,8 @@ function buildUserListItem(user){
   userLink.setAttribute('href', '/user-page.html?user=' + user);
   userLink.appendChild(document.createTextNode(user));
   const userListItem = document.createElement('li');
+  userListItem.classList.add('list-unstyled-item');
+  userListItem.classList.add('list-hours-item');
   userListItem.appendChild(userLink);
   return userListItem;
 }
