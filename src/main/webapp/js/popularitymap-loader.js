@@ -7,7 +7,7 @@ function createMap(){
             zoom: 11.5
         });
     showHeatMap(map);
-};
+}
 
 function showHeatMap(map){
     fetch('/Location').then((response) => {
