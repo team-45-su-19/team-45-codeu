@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/Location")
 public class LocationServlet extends HttpServlet {
-
-	private Datastore datastore;
+  private Datastore datastore;
 
   @Override
   public void init() {
