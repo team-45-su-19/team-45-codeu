@@ -26,29 +26,28 @@ public class LocationServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-  	response.setContentType("application/json");
+    response.setContentType("application/json");
     List<LocationCount> loc = datastore.getLocationCount();
     Collections.sort(loc, (x, y) -> {return -Integer.compare(x.count, y.count);});
-    
+
     Gson gson = new Gson();
     String json = gson.toJson(loc);
-
     response.getOutputStream().println(json);
   }
 
   public static class LocationCount {
-  	private double lat;
-  	private double lng;
-  	private int count;
-  	private String id;
-  	private String name;
+    private double lat;
+    private double lng;
+    private int count;
+    private String id;
+    private String name;
 
-  	public LocationCount(String lat, String lng, int count, String id, String name) {
-  		this.lat = Double.parseDouble(lat);
-  		this.lng = Double.parseDouble(lng);
-  		this.count = count;
-  		this.id = id;
-  		this.name = name;
-  	}
+    public LocationCount(String lat, String lng, int count, String id, String name) {
+      this.lat = Double.parseDouble(lat);
+      this.lng = Double.parseDouble(lng);
+      this.count = count;
+      this.id = id;
+      this.name = name;
+    }
   }
 }
