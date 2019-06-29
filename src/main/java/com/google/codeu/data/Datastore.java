@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Collection;
+import com.google.codeu.servlets.LocationServlet;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
@@ -103,6 +106,35 @@ public class Datastore {
     Location location = new Location(id, name, lat, lng);
     return location;
   }
+
+  public List<LocationServlet.LocationCount> getLocationCount() {
+    Query query = new Query("Message").setFilter(
+      new Query.FilterPredicate("location_id", FilterOperator.NOT_EQUAL, null));
+    PreparedQuery results = datastore.prepare(query);
+    HashMap<String, Integer> count = new HashMap<>();
+    for(Entity entity: results.asIterable()) {
+      String id = (String)entity.getProperty("location_id");
+      if(count.containsKey(id)) {
+        count.put(id, count.get(id)+1);
+      } else {
+        count.put(id, 1);
+      }
+    }
+    List<LocationServlet.LocationCount> lc = new ArrayList<>();
+    for(String id: count.keySet()) {
+      query = new Query("Location")
+            .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
+      results = datastore.prepare(query);
+      Entity locationEntity = results.asSingleEntity();
+      String lat = (String)locationEntity.getProperty("lat");
+      String lng = (String)locationEntity.getProperty("lng");
+      String name = (String)locationEntity.getProperty("name");
+      lc.add(new LocationServlet.LocationCount(
+                lat, lng, count.get(id), id, name));
+    }
+    return lc;
+  }
+
   /**
    * Prepare messages from retrieved data.
    *
