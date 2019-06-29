@@ -28,9 +28,9 @@ public class LocationServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
   	response.setContentType("application/json");
     List<LocationCount> loc = datastore.getLocationCount();
-  	Collections.sort(loc, (x, y) -> {return -Integer.compare(x.count, y.count);});
-        
-  	Gson gson = new Gson();
+    Collections.sort(loc, (x, y) -> {return -Integer.compare(x.count, y.count);});
+    
+    Gson gson = new Gson();
     String json = gson.toJson(loc);
 
     response.getOutputStream().println(json);
