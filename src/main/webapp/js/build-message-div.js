@@ -35,6 +35,13 @@ function buildMessageDiv(message){
   return messageDiv;
 }
 
+function formatTimestamp(messageTime){
+  var timestamp = new Date(messageTime);
+  return timestamp.getFullYear()+"."+timestamp.getMonth()+"."+timestamp.getDate()
+          +" "+
+          timestamp.getHours()+":"+timestamp.getMinutes()+":"+timestamp.getSeconds();
+}
+
 function buildMessageInTimeline(message, flip){
   const imageDiv = document.createElement('div');
   imageDiv.classList.add("timeline-image");
@@ -49,7 +56,7 @@ function buildMessageInTimeline(message, flip){
   const timeDiv = document.createElement('div');
   timeDiv.classList.add('timeline-heading');
   timeText = document.createElement('h4');
-  timeText.appendChild(document.createTextNode(new Date(message.timestamp)));
+  timeText.appendChild(document.createTextNode(formatTimestamp(message.timestamp)));
   timeDiv.appendChild(timeText);
 
   nameText = document.createElement('h4');
@@ -59,9 +66,6 @@ function buildMessageInTimeline(message, flip){
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('timeline-body');
-  bodyText = document.createElement('p');
-  bodyText.appendChild(document.createTextNode(message.text));
-  bodyDiv.appendChild(bodyText);
   bodyDiv.innerHTML = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
 
   const messageDiv = document.createElement('div');
