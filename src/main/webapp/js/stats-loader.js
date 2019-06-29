@@ -37,4 +37,5 @@ function buildChart(stats){
 // Fetch data and populate the UI of the page.
 function buildUI(){
   buildChart();
+  createMap();
 }
