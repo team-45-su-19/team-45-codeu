@@ -56,6 +56,7 @@ function buildMessageInTimeline(message, flip){
   bodyText = document.createElement('p');
   bodyText.appendChild(document.createTextNode(message.text));
   bodyDiv.appendChild(bodyText);
+  bodyDiv.innerHTML = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("timeline-panel");
