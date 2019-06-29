@@ -39,12 +39,25 @@ public class Datastore {
     datastore = DatastoreServiceFactory.getDatastoreService();
   }
 
+  /** Stores the Location in Datastore. */
+  public void storeLocation(Location location){
+    Entity locationEntity = new Entity("Location", location.getId());
+    locationEntity.setProperty("id", location.getId());
+    locationEntity.setProperty("name", location.getName());
+    locationEntity.setProperty("lat", location.getLat());
+    locationEntity.setProperty("lng", location.getLng());
+
+    datastore.put(locationEntity);
+  }
+
   /** Stores the Message in Datastore. */
   public void storeMessage(Message message) {
     Entity messageEntity = new Entity("Message", message.getId().toString());
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
+    messageEntity.setProperty("location_id", message.getLocationId());
+    messageEntity.setProperty("location_name", message.getLocationName());
 
     datastore.put(messageEntity);
   }
@@ -56,8 +69,6 @@ public class Datastore {
    *     message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
-    List<Message> messages = new ArrayList<>();
-
     Query query = new Query("Message")
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
             .addSort("timestamp", SortDirection.DESCENDING);
@@ -72,14 +83,26 @@ public class Datastore {
    * List is sorted by time descending.
    */
   public List<Message> getAllMessages(){
-    List<Message> messages = new ArrayList<>();
-
     Query query = new Query("Message")
             .addSort("timestamp", SortDirection.DESCENDING);
 
     return prepareMessages(query);
   }
 
+  public Location getLocation(String id){
+    Query query = new Query("Location")
+            .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity locationEntity = results.asSingleEntity();
+    if(locationEntity == null) {
+      return null;
+    }
+    String name = (String) locationEntity.getProperty("name");
+    String lat = (String) locationEntity.getProperty("lat");
+    String lng = (String) locationEntity.getProperty("lng");
+    Location location = new Location(id, name, lat, lng);
+    return location;
+  }
   /**
    * Prepare messages from retrieved data.
    *
@@ -98,8 +121,9 @@ public class Datastore {
         String user = (String) entity.getProperty("user");
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
-
-        Message message = new Message(id, user, text, timestamp);
+        String location_id = (String) entity.getProperty("location_id");
+        String location_name = (String) entity.getProperty("location_name");
+        Message message = new Message(id, user, text, timestamp, location_id, location_name);
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");

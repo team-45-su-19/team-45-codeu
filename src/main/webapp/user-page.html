@@ -30,11 +30,15 @@ limitations under the License.
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/map.css">
     <link rel="stylesheet" href="/css/user-page.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBawpEnaMnt7vwsqGV_SaUEW7oppEDHJvg&libraries=places"></script>
     <script src="/js/navigation-loader.js"></script>
     <script src="/js/build-message-div.js"></script>
     <script src="/js/user-page-loader.js"></script>
+    <script src="/js/map-loader.js"></script>
+
   </head>
   <body onload="initiateUI();">
   <!-- Website title header -->
@@ -67,9 +71,16 @@ limitations under the License.
                 <span class="section-heading-lower">Write a new post:</span>
               </h2>
             </div>
+            <!-- TODO: Format the form -->
             <form id="message-form" action="/messages" method="POST" class="hidden">
+              Enter a new message:
+              <br/>
               <textarea name="text" id="message-input"></textarea>
               <br/>
+              <input type="text" name="location_input" id="location_input" value="Type to search for location...">
+              <button type="button" onclick="searchLocationByText()">Search</button>
+              <br/>
+              <div id="map"></div>
               <input type="submit" value="Submit">
             </form>
           </div>
@@ -91,6 +102,7 @@ limitations under the License.
       </div>
     </section>
 
+    <!-- TODO: Format About Me -->
     <!-- About me -->
     <section class="page-section cta" id="about">
       <div id="about-me-container">Loading...</div>
@@ -114,6 +126,5 @@ limitations under the License.
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
   </body>
 </html>

@@ -100,6 +100,7 @@ function loadMarkdownEditor() {
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
+  createMapForUserPage();
   fetchMessages();
   fetchAboutMe();
   loadMarkdownEditor();

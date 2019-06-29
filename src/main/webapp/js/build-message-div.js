@@ -17,6 +17,12 @@ function buildMessageDiv(message){
   headerDiv.appendChild(usernameDiv);
   headerDiv.appendChild(timeDiv);
 
+  if (message.location_name){
+    const locationDiv = document.createElement('div');
+    locationDiv.classList.add('message-body');
+    locationDiv.appendChild(document.createTextNode(message.location_name));
+    headerDiv.appendChild(locationDiv);
+  }
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
