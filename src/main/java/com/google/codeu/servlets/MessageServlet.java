@@ -16,6 +16,7 @@
 
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
@@ -91,10 +92,19 @@ public class MessageServlet extends HttpServlet {
     if (request.getParameterMap().containsKey("location_id")){
       String location_id = Jsoup.clean(request.getParameter("location_id"), Whitelist.none());
       String location_name = Jsoup.clean(request.getParameter("location_name"), Whitelist.none());
-      String location_lat = Jsoup.clean(request.getParameter("lat"), Whitelist.none());
-      String location_lng = Jsoup.clean(request.getParameter("lng"), Whitelist.none());
-      Location location = new Location(location_id, location_name, location_lat, location_lng);
-      datastore.storeLocation(location);
+
+      // If the location is first met, add this location.
+      Entity locationEntity = datastore.retrieveLocationEntity(location_id);
+      if (locationEntity == null){
+        double location_lat = Double.valueOf(Jsoup.clean(request.getParameter("lat"), Whitelist.none()));
+        double location_lng = Double.valueOf(Jsoup.clean(request.getParameter("lng"), Whitelist.none()));
+        Location newLocation = new Location(location_id, location_name, location_lat, location_lng);
+        datastore.storeLocation(newLocation);
+      }
+      else{ // count ++
+        datastore.addLocationCountByOne(locationEntity);
+      }
+
       message = new Message(user, transformedText, location_id, location_name);
     }
     else{

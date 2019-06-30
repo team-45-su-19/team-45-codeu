@@ -4,29 +4,37 @@ public class Location {
 
   private String id;
   private String name;
-  private String lat;
-  private String lng;
+  private double lat;
+  private double lng;
+  private int count;
 
-  public Location(String id, String name, String lat, String lng) {
+  public Location(String id, String name, double lat, double lng) {
     this.id = id;
     this.lat = lat;
     this.lng = lng;
     this.name = name;
+    this.count = 1;
   }
 
   public String getId() {
     return id;
   }
 
-  public String getLat() {
+  public double getLat() {
     return lat;
   }
 
-  public String getLng() {
+  public double getLng() {
     return lng;
   }
 
   public String getName() {
     return name;
+  }
+
+  public int getCount() { return count; }
+
+  public void setCount(int count) {
+    this.count = count;
   }
 }

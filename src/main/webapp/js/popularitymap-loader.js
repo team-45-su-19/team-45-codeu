@@ -1,4 +1,3 @@
-
 function createMap(){
     document.getElementById('map').style.height = '500px';
     map = new google.maps.Map(document.getElementById('map'), {

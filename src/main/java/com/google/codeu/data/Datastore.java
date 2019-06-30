@@ -16,22 +16,15 @@
 
 package com.google.codeu.data;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.datastore.FetchOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.HashMap;
-import java.util.Collection;
-import com.google.codeu.servlets.LocationServlet;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
@@ -45,10 +38,10 @@ public class Datastore {
   /** Stores the Location in Datastore. */
   public void storeLocation(Location location){
     Entity locationEntity = new Entity("Location", location.getId());
-    locationEntity.setProperty("id", location.getId());
     locationEntity.setProperty("name", location.getName());
     locationEntity.setProperty("lat", location.getLat());
     locationEntity.setProperty("lng", location.getLng());
+    locationEntity.setProperty("count", 1);
 
     datastore.put(locationEntity);
   }
@@ -92,47 +85,48 @@ public class Datastore {
     return prepareMessages(query);
   }
 
-  public Location getLocation(String id){
-    Query query = new Query("Location")
-            .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity locationEntity = results.asSingleEntity();
-    if(locationEntity == null) {
+  public Entity retrieveLocationEntity(String id){
+    Key key = KeyFactory.createKey("Location", id);
+    try{
+      return datastore.get(key);
+    }
+    catch (EntityNotFoundException e){
       return null;
     }
+  }
+
+  public void addLocationCountByOne(Entity locationEntity) {
+    int count = (int)(long)locationEntity.getProperty("count");
+    locationEntity.setProperty("count", ++count);
+
+    datastore.put(locationEntity);
+  }
+
+  /**
+   * Gets a specific location.
+   *
+   * @return a location object.
+   */
+  public Location getLocation(Entity locationEntity){
+    String id = KeyFactory.keyToString(locationEntity.getKey());
     String name = (String) locationEntity.getProperty("name");
-    String lat = (String) locationEntity.getProperty("lat");
-    String lng = (String) locationEntity.getProperty("lng");
+    double lat = (double) locationEntity.getProperty("lat");
+    double lng = (double) locationEntity.getProperty("lng");
     Location location = new Location(id, name, lat, lng);
     return location;
   }
 
-  public List<LocationServlet.LocationCount> getLocationCount() {
-    Query query = new Query("Message").setFilter(
-      new Query.FilterPredicate("location_id", FilterOperator.NOT_EQUAL, null));
-    PreparedQuery results = datastore.prepare(query);
-    HashMap<String, Integer> count = new HashMap<>();
-    for(Entity entity: results.asIterable()) {
-      String id = (String)entity.getProperty("location_id");
-      if(count.containsKey(id)) {
-        count.put(id, count.get(id)+1);
-      } else {
-        count.put(id, 1);
-      }
-    }
-    List<LocationServlet.LocationCount> lc = new ArrayList<>();
-    for(String id: count.keySet()) {
-      query = new Query("Location")
-            .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
-      results = datastore.prepare(query);
-      Entity locationEntity = results.asSingleEntity();
-      String lat = (String)locationEntity.getProperty("lat");
-      String lng = (String)locationEntity.getProperty("lng");
-      String name = (String)locationEntity.getProperty("name");
-      lc.add(new LocationServlet.LocationCount(
-                lat, lng, count.get(id), id, name));
-    }
-    return lc;
+  /**
+   * Gets all locations in database.
+   *
+   * @return a list of locations, or empty list if there is no location.
+   * List is sorted by count.
+   */
+  public List<Location> getAllLocations(){
+    Query query = new Query("Location")
+            .addSort("count", SortDirection.DESCENDING);
+
+    return prepareLocations(query);
   }
 
   /**
@@ -165,6 +159,37 @@ public class Datastore {
     }
 
     return messages;
+  }
+
+  /**
+   * Prepare locations from retrieved data.
+   *
+   * @return a list of locations, or empty list if there is no location.
+   * List is sorted by count.
+   */
+  public List<Location> prepareLocations(Query query){
+    List<Location> locations = new ArrayList<>();
+
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity locationEntity : results.asIterable()) {
+      try {
+        String id = KeyFactory.keyToString(locationEntity.getKey());
+        String name = (String) locationEntity.getProperty("name");
+        double lat = (double) locationEntity.getProperty("lat");
+        double lng = (double) locationEntity.getProperty("lng");
+        int count = (int)(long)locationEntity.getProperty("count");
+        Location location = new Location(id, name, lat, lng);
+        location.setCount(count);
+        locations.add(location);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(locationEntity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return locations;
   }
 
   /** Stores the User in Datastore. */
@@ -234,4 +259,5 @@ public class Datastore {
     }
     return (resultsList.size() == 0) ? 0 : sum.doubleValue()/resultsList.size();
   }
+
 }
