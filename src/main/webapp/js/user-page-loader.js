@@ -104,4 +104,5 @@ function buildUI() {
   fetchMessages();
   fetchAboutMe();
   loadMarkdownEditor();
+  createUserPostsMap();
 }

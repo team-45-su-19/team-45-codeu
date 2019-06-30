@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
@@ -110,6 +111,7 @@ public class Datastore {
   public Location getLocation(Entity locationEntity){
     String id = KeyFactory.keyToString(locationEntity.getKey());
     String name = (String) locationEntity.getProperty("name");
+    System.out.println(locationEntity.getProperty("lat"));
     double lat = (double) locationEntity.getProperty("lat");
     double lng = (double) locationEntity.getProperty("lng");
     Location location = new Location(id, name, lat, lng);
@@ -128,6 +130,35 @@ public class Datastore {
 
     return prepareLocations(query);
   }
+
+  /**
+   * Gets all locations a specific user posted.
+   *
+   * @return a list of locations, or empty list if there is no location.
+   * List is sorted by count.
+   */
+  public List<Location> getUserSpecificLocations(String user){
+    Query messageQuery = new Query("Message")
+            .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+            .setFilter(new Query.FilterPredicate("location_id", FilterOperator.NOT_EQUAL, null));
+    PreparedQuery results = datastore.prepare(messageQuery);
+
+    List<Key> location_keys = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      try {
+        String location_id = (String) entity.getProperty("location_id");
+        location_keys.add(KeyFactory.createKey("Location",location_id));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    List<Entity> locationEntities = new ArrayList<>(datastore.get(location_keys).values());
+
+    return locationEntities.stream().map(entity -> getLocation(entity)).collect(Collectors.toList());
+  }
+
 
   /**
    * Prepare messages from retrieved data.

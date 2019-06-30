@@ -23,7 +23,16 @@ public class LocationServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
-    List<Location> loc = datastore.getAllLocations();
+    List<Location> loc;
+
+    String user = request.getParameter("user");
+    if (user == null || user.equals("")) {
+      // No user speficied, return all locations
+      loc = datastore.getAllLocations();
+    }
+    else{
+      loc = datastore.getUserSpecificLocations(user);
+    }
     Collections.sort(loc, (x, y) -> {return -Integer.compare(x.getCount(), y.getCount());});
 
     Gson gson = new Gson();

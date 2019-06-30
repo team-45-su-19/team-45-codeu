@@ -3,7 +3,7 @@
   let currentPos;
   let editMarkers = [];
 
-  /* Initialize map with three fixed markers*/
+  /* Initialize map*/
   function createDefaultMap(){
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 1.34, lng: 103.8},
@@ -11,7 +11,7 @@
     });
   }
 
-  /* This map shows all places that users have been. */
+  /* This map shows all places. */
   /* TODO: Move it to other page if needed */
   exports.createMapForAboutUsPage = function(){
     createDefaultMap();
