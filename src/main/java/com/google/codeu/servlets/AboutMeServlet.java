@@ -11,6 +11,8 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.User;
+import java.util.Arrays;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -68,7 +70,16 @@ public class AboutMeServlet extends HttpServlet {
 
     System.out.println("Saving about me for " + userEmail);
 
-    User user = new User(userEmail, aboutMe);
+    User userData = datastore.getUser(userEmail);
+    String profilePicUrl;
+
+    if (userData == null || userData.getProfilePicUrl() == null) {
+      profilePicUrl = "";
+    } else{
+      profilePicUrl = userData.getProfilePicUrl();
+    }
+
+    User user = new User(userEmail, aboutMe, profilePicUrl);
     datastore.storeUser(user);
 
     response.sendRedirect("/user-page.html?user=" + userEmail);

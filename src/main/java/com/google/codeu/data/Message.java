@@ -25,6 +25,8 @@ public class Message {
   private String user;
   private String text;
   private long timestamp;
+  private String location_id;
+  private String location_name;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
@@ -39,6 +41,19 @@ public class Message {
     this.user = user;
     this.text = text;
     this.timestamp = timestamp;
+  }
+
+  public Message(String user, String text, String location_id, String location_name) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), location_id, location_name);
+  }
+
+  public Message(UUID id, String user, String text, long timestamp, String location_id, String location_name) {
+    this.id = id;
+    this.user = user;
+    this.text = text;
+    this.timestamp = timestamp;
+    this.location_id = location_id;
+    this.location_name = location_name;
   }
 
   public UUID getId() {
@@ -56,4 +71,10 @@ public class Message {
   public long getTimestamp() {
     return timestamp;
   }
+
+  public String getLocationId() {
+    return location_id;
+  }
+
+  public String getLocationName() { return location_name;}
 }

@@ -20,6 +20,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
+import com.google.codeu.data.Location;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Arrays;
@@ -79,6 +80,7 @@ public class MessageServlet extends HttpServlet {
       response.sendRedirect("/index.html");
       return;
     }
+    Message message;
 
     String user = userService.getCurrentUser().getEmail();
     // Allow new line characters
@@ -86,8 +88,19 @@ public class MessageServlet extends HttpServlet {
 
     String mediaRegex = "\\s(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))(\\s|$|\\n)";
     String transformedText = displayMedia(mediaRegex, userText);
+    if (request.getParameterMap().containsKey("location_id")){
+      String location_id = Jsoup.clean(request.getParameter("location_id"), Whitelist.none());
+      String location_name = Jsoup.clean(request.getParameter("location_name"), Whitelist.none());
+      String location_lat = Jsoup.clean(request.getParameter("lat"), Whitelist.none());
+      String location_lng = Jsoup.clean(request.getParameter("lng"), Whitelist.none());
+      Location location = new Location(location_id, location_name, location_lat, location_lng);
+      datastore.storeLocation(location);
+      message = new Message(user, transformedText, location_id, location_name);
+    }
+    else{
+      message = new Message(user, transformedText);
+    }
 
-    Message message = new Message(user, transformedText);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
