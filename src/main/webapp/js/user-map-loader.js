@@ -31,5 +31,6 @@
    marker.addListener('click', function() {
      infoWindow.open(userMap, marker);
    });
-  };
+  }
+  
 })(window);
