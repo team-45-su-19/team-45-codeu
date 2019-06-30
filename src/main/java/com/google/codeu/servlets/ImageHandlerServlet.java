@@ -18,6 +18,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.codeu.data.Datastore;
+import com.google.codeu.data.User;
+
 /**
  * When the user submits the form, Blobstore processes the file upload
  * and then forwards the request to this servlet. This servlet can then
@@ -25,6 +30,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/image-form-handler")
 public class ImageHandlerServlet extends HttpServlet {
+
+  private Datastore datastore;
+
+  @Override
+  public void init() {
+    datastore = new Datastore();
+  }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -34,14 +46,60 @@ public class ImageHandlerServlet extends HttpServlet {
 
     // Output some HTML that shows the data the user entered.
     // A real codebase would probably store these in Datastore.
-    ServletOutputStream out = response.getOutputStream();
-    out.println("<p>Here's the image you uploaded:</p>");
-    out.println("<a href=\"" + imageUrl + "\">");
-    out.println("<img src=\"" + imageUrl + "\" />");
-    out.println("</a>");
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/index.html");
+      return;
+    }
 
+    String userEmail = userService.getCurrentUser().getEmail();
+
+    User userData = datastore.getUser(userEmail);
+    String aboutMe;
+
+    if (userData == null || userData.getAboutMe() == null) {
+      aboutMe = "";
+    } else{
+      aboutMe = userData.getAboutMe();
+    }
+
+    String profilePicUrl = imageUrl;
+
+    User user = new User(userEmail, aboutMe, profilePicUrl);
+    datastore.storeUser(user);
+
+    response.sendRedirect("/user-page.html?user=" + userEmail);
+
+    //    ServletOutputStream out = response.getOutputStream();
+//    out.println("<p>Here's the image you uploaded:</p>");
+//    out.println("<a href=\"" + imageUrl + "\">");
+//    out.println("<img src=\"" + imageUrl + "\" />");
+//    out.println("</a>");
   }
 
+
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+
+    response.setContentType("text/html");
+
+    String user = request.getParameter("user");
+
+    if(user == null || user.equals("")) {
+      // Request is invalid, return empty response
+      return;
+    }
+
+    User userData = datastore.getUser(user);
+
+    if(userData == null || userData.getProfilePicUrl() == null) {
+      return;
+    }
+
+    response.getOutputStream().println(userData.getProfilePicUrl());
+
+  }
   /**
    * Returns a URL that points to the uploaded file, or null if the user didn't upload a file.
    */
