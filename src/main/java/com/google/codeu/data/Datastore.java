@@ -97,7 +97,7 @@ public class Datastore {
 
   public void addLocationCountByOne(Entity locationEntity) {
     int count = (int)(long)locationEntity.getProperty("count");
-    locationEntity.setProperty("count", count++);
+    locationEntity.setProperty("count", ++count);
 
     datastore.put(locationEntity);
   }
