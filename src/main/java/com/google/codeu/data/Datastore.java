@@ -180,6 +180,13 @@ public class Datastore {
     return results.countEntities(FetchOptions.Builder.withDefaults());
   }
 
+  public int getUserMessageCount(String email) {
+    Query query = new Query("User")
+        .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
+    PreparedQuery results = datastore.prepare(query);
+    return results.countEntities(FetchOptions.Builder.withDefaults());
+  }
+
   /** Returns the total number of users with messages. */
   public int getTotalUserCount(){
     Query query = new Query("Message");
