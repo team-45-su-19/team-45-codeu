@@ -99,7 +99,7 @@
   border-left-width: 0;
 }
 
-.timeline > li::last-child {
+.timeline > li:last-child {
   margin-bottom: 0;
 }
 
