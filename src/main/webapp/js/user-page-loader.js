@@ -79,10 +79,7 @@ function fetchMessages() {
         } else {
           messagesContainer.innerHTML = '';
         }
-        messages.forEach((message) => {
-          const messageDiv = buildMessageDiv(message);
-          messagesContainer.appendChild(messageDiv);
-        });
+        messagesContainer.appendChild(buildTimeline(messages));
       });
 }
 
@@ -103,6 +100,7 @@ function loadMarkdownEditor() {
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
+  createMapForUserPage();
   fetchMessages();
   fetchAboutMe();
   loadMarkdownEditor();

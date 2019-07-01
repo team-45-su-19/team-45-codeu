@@ -16,10 +16,12 @@
 
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
+import com.google.codeu.data.Location;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Arrays;
@@ -79,6 +81,7 @@ public class MessageServlet extends HttpServlet {
       response.sendRedirect("/index.html");
       return;
     }
+    Message message;
 
     String user = userService.getCurrentUser().getEmail();
     // Allow new line characters
@@ -86,8 +89,28 @@ public class MessageServlet extends HttpServlet {
 
     String mediaRegex = "\\s(https?://\\S+\\.(png|jpg|bmp|gif|svg|mp3|mp4))(\\s|$|\\n)";
     String transformedText = displayMedia(mediaRegex, userText);
+    if (request.getParameterMap().containsKey("location_id")){
+      String location_id = Jsoup.clean(request.getParameter("location_id"), Whitelist.none());
+      String location_name = Jsoup.clean(request.getParameter("location_name"), Whitelist.none());
 
-    Message message = new Message(user, transformedText);
+      // If the location is first met, add this location.
+      Entity locationEntity = datastore.retrieveLocationEntity(location_id);
+      if (locationEntity == null){
+        double location_lat = Double.valueOf(Jsoup.clean(request.getParameter("lat"), Whitelist.none()));
+        double location_lng = Double.valueOf(Jsoup.clean(request.getParameter("lng"), Whitelist.none()));
+        Location newLocation = new Location(location_id, location_name, location_lat, location_lng);
+        datastore.storeLocation(newLocation);
+      }
+      else{ // count ++
+        datastore.addLocationCountByOne(locationEntity);
+      }
+
+      message = new Message(user, transformedText, location_id, location_name);
+    }
+    else{
+      message = new Message(user, transformedText);
+    }
+
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + user);
