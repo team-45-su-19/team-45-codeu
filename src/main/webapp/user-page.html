@@ -62,69 +62,54 @@ limitations under the License.
       </div>
     </nav>
 
-    <!-- Text on background -->
-    <section class="page-section cta">
+
+    <!-- Message display -->
+    <section class="page-section cta" id="messages">
+
+      <!-- Text on background -->
       <div class="container">
         <div class="row">
           <div class="col-xl-9 mx-auto">
             <div class="cta-inner text-center rounded">
               <h2 class="section-heading mb-4">
-                <span class="section-heading-lower">Write a new post:</span>
+                <span class="section-heading-upper">Find more ...</span>
+                <span class="section-heading-lower">About Me</span>
               </h2>
+              <div class="text-center" id="about-me-container">
+                <p class="text-center" contenteditable="true" id="about-me-text">Loading...</p>
+                <button type="button" class="btn btn-warning" id="save-button" onclick="setAboutMe()">Save</button>
+              </div>
+              <div class="text-center" id="profile-pic-container">No profile pic...</div>
+              <div class="text-center" id="profile-pic-form">
+                <form id="upload-dp" class="hidden" method="POST" enctype="multipart/form-data">
+                  <p>Upload your profile picture:</p>
+                  <input type="file" name="image">
+                  <br/><br/>
+                  <button type="button" class="btn btn-warning">Submit</button>
+                </form>
+              </div>
             </div>
-            <!-- TODO: Format the form -->
-            <form id="message-form" action="/messages" method="POST" class="hidden">
-              Enter a new message:
-              <br/>
-              <textarea name="text" id="message-input"></textarea>
-              <br/>
-              <input type="text" name="location_input" id="location_input" value="Type to search for location...">
-              <button type="button" onclick="searchLocationByText()">Search</button>
-              <br/>
-              <div id="map"></div>
-              <input type="submit" value="Submit">
-            </form>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- Message display -->
-    <section class="page-section cta" id="messages">
+      <br>
+
+      <div class="text-center">
+        <button type="button" class="btn btn-warning hidden" id="new-post" onclick="redirectToNewPost()">Click to create new post!</button>
+      </div>
+
+      <br>
+
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
             <h2 class="section-heading text-uppercase">My posts:</h2>
+            <div id="message-container">Loading...</div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-12" id="message-container">Loading...</div>
-        </div>
       </div>
     </section>
-
-    <!-- TODO: Format About Me -->
-    <!-- About me -->
-    <section class="page-section cta" id="about">
-      <div id="about-me-container">Loading...</div>
-      <div id="about-me-form" class="hidden">
-        <form action="/about" method="POST">
-          <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
-          <br/>
-          <input type="submit" value="Submit">
-        </form>
-      </div>
-    </section>
-    <br/>
-    <div id="profile-pic-container">No profile pic...</div>
-    <div id="profile-pic-form">
-      <form id="upload-dp" class="hidden" method="POST" enctype="multipart/form-data">
-        <p>Upload your profile picture:</p>
-        <input type="file" name="image">
-        <br/><br/>
-        <button>Submit</button>
-      </form>
-    </div>
 
   <!-- Website Footer -->
     <footer class="footer text-faded text-center py-5">

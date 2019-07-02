@@ -29,12 +29,26 @@ function setPageTitle() {
   document.title = parameterUsername + ' - User Page';
 }
 
+function setAboutMe() {
+  var form = document.createElement("form");
+  var aboutMeText = document.createElement("input");
+  var text = document.getElementById("about-me-text").innerText;
+  if (text ==null){text="This user has not entered self-introduction yet.";}
+
+  form.method = "POST";
+  form.action = "/about";
+
+  aboutMeText.value=text;
+  aboutMeText.name="about-me";
+  form.appendChild(aboutMeText);
+  document.body.appendChild(form);
+  form.submit();
+}
+
 /**
  * Shows the message form if the user is logged in and viewing their own page.
  */
 function showMessageFormIfViewingSelf() {
-
-  document.getElementById('about-me-form').classList.remove('hidden');
 
   fetch('/login-status')
       .then((response) => {
@@ -43,8 +57,8 @@ function showMessageFormIfViewingSelf() {
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn &&
             loginStatus.username == parameterUsername) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.classList.remove('hidden');
+          const redirectButton = document.getElementById('new-post');
+          redirectButton.classList.remove('hidden');
         }
       });
 }
@@ -55,8 +69,8 @@ function fetchAboutMe(){
   fetch(url).then((response) => {
     return response.text();
   }).then((aboutMe) => {
-    const aboutMeContainer = document.getElementById('about-me-container');
-    if(aboutMe == ''){
+    const aboutMeContainer = document.getElementById('about-me-text');
+    if(/\s/.test(aboutMe)){
       aboutMe = 'This user has not entered any information yet.';
     }
 
@@ -127,11 +141,14 @@ function fetchBlobstoreUrlAndShowForm() {
     });
 }
 
+function redirectToNewPost() {
+  location.href = "new-post.html";
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
-  createMapForUserPage();
   fetchMessages();
   fetchAboutMe();
   fetchBlobstoreUrlAndShowForm();

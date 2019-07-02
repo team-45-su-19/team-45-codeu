@@ -51,3 +51,9 @@
 .hidden {
   display: none;
 }
+
+#profile-pic-form,
+#about-me-container {
+  pointer-events: all;
+}
+

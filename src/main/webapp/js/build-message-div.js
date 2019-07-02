@@ -43,6 +43,9 @@ function formatTimestamp(messageTime){
 }
 
 function buildMessageInTimeline(message, flip){
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add("timeline-panel");
+
   const imageDiv = document.createElement('div');
   imageDiv.classList.add("timeline-image");
 
@@ -54,22 +57,25 @@ function buildMessageInTimeline(message, flip){
   imageDiv.appendChild(image);
 
   const timeDiv = document.createElement('div');
-  timeDiv.classList.add('timeline-heading');
-  timeText = document.createElement('h4');
+  timeDiv.classList.add('timeline-body');
+  timeText = document.createElement('p');
+  timeText.classList.add('text-muted');
   timeText.appendChild(document.createTextNode(formatTimestamp(message.timestamp)));
   timeDiv.appendChild(timeText);
 
-  nameText = document.createElement('h4');
-  nameText.classList.add('subheading');
-  nameText.appendChild(document.createTextNode(message.user));
-  timeDiv.appendChild(nameText);
+  if (message.location_name){
+    const locDiv = document.createElement('div');
+    locDiv.classList.add('timeline-heading');
+    locText = document.createElement('h4');
+    locText.appendChild(document.createTextNode(message.location_name));
+    locDiv.appendChild(locText);
+    messageDiv.appendChild(locDiv);
+  }
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('timeline-body');
   bodyDiv.innerHTML = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
 
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add("timeline-panel");
   messageDiv.appendChild(timeDiv);
   messageDiv.appendChild(bodyDiv);
 
