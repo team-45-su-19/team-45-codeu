@@ -71,11 +71,9 @@ public class AboutMeServlet extends HttpServlet {
     System.out.println("Saving about me for " + userEmail);
 
     User userData = datastore.getUser(userEmail);
-    String profilePicUrl;
+    String profilePicUrl = "";
 
-    if (userData == null || userData.getProfilePicUrl() == null) {
-      profilePicUrl = "";
-    } else{
+    if (userData != null && userData.getProfilePicUrl() != null) {
       profilePicUrl = userData.getProfilePicUrl();
     }
 
