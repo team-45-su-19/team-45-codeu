@@ -154,6 +154,7 @@ p {
   padding: 3rem;
   margin: 0.5rem;
   background-color: rgba(255, 255, 255, 0.85);
+  
   /* NOTE: This container makes all child clickable, therefore make it pointer-events:none,
   and make child elements pointer-events:all to enable the events. */
   pointer-events: none;
