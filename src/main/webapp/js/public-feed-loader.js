@@ -11,10 +11,7 @@ function fetchMessages(){
   else{
     messageContainer.innerHTML = '';
   }
-  messages.forEach((message) => {
-    const messageDiv = buildMessageDiv(message);
-    messageContainer.appendChild(messageDiv);
-  });
+  messageContainer.appendChild(buildTimeline(messages));
 });
 }
 
