@@ -3,7 +3,7 @@
   let currentPos;
   let editMarkers = [];
 
-  /* Initialize map*/
+  /* Initialize map with three fixed markers*/
   function createDefaultMap(){
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 1.34, lng: 103.8},
@@ -11,20 +11,11 @@
     });
   }
 
-  /* This map shows all places. */
-  /* TODO: Move it to other page if needed */
   exports.createMapForAboutUsPage = function(){
     createDefaultMap();
-    fetch('/Location').then((response) => {
-            return response.json();
-        }).then((locations) => {
-            locations.forEach((location) =>{
-              createMarker(location.lat,location.lng,location.name);
-            });
-        });
-    createMarker(1.280547, 103.844502, 'Recommended by editor: Maxwell Food Centre');
-    createMarker(1.308398, 103.885808, 'Recommended by editor: Old Airport Road Food Centre');
-    createMarker(1.331814, 103.938867, 'Recommended by editor: Bedok 85 Market');
+    createMarker(1.280547, 103.844502, 'Maxwell Food Centre', '1 Kadayanallur St 069184');
+    createMarker(1.308398, 103.885808, 'Old Airport Road Food Centre', '51 Old Airport Rd, Singapore 390051');
+    createMarker(1.331814, 103.938867, 'Bedok 85 Market', '85 Bedok North Street 4, Singapore 460085');
   };
 
   exports.createMapForUserPage = function(){
@@ -137,13 +128,14 @@
   }
 
   /* Add landmark to map */
-  function createMarker(lat, lng, name) {
+  function createMarker(lat, lng, title, address) {
     const marker = new google.maps.Marker({
       position: {lat: lat, lng: lng},
       map: map,
+      title: title
     });
     const infoWindow = new google.maps.InfoWindow({
-      content: name
+      content: address
     });
     marker.addListener('click', function() {
       infoWindow.open(map, marker);
