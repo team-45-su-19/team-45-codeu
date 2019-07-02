@@ -81,7 +81,24 @@ function highlightCurrent() {
   } else if (path.includes("stats")) {
     navAElements[4].appendChild(createSpan());
     navListElements[4].classList.add("active");
-  } else {
+  } else if (path.includes("user-page")) {
+    var urlParams = new URLSearchParams(window.location.search);
+    var username = urlParams.get('user');
+    fetch('/login-status')
+    .then((response) => {
+      return response.json();
+    })
+    .then((loginStatus) => {
+      if(loginStatus.isLoggedIn && loginStatus.username == username) {
+        navAElements[5].appendChild(createSpan());
+        navListElements[5].classList.add("active");
+      } else {
+        console.log(true);
+        navAElements[3].appendChild(createSpan());
+        navListElements[3].classList.add("active");
+      }
+    });
+  }else {
     navAElements[0].appendChild(createSpan());
     navListElements[0].classList.add("active");
   }
