@@ -65,6 +65,24 @@ function fetchAboutMe(){
   });
 }
 
+/**Fetches profile pic of user**/
+function fetchProfilePic(){
+  const url = '/image-form-handler?user=' + parameterUsername;
+  fetch(url).then((response) => {
+    return response.text();
+  }).then((profilePicUrl) => {
+    const profilePicContainer = document.getElementById('profile-pic-container');
+    if(profilePicUrl == ''){
+      profilePicUrl = 'This user has not uploaded any profile picture.';
+    }else{
+      profilePicUrl = '<img src=\"' + profilePicUrl + '\" />';
+    }
+
+    profilePicContainer.innerHTML = profilePicUrl;
+
+  });
+}
+
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
@@ -96,6 +114,19 @@ function loadMarkdownEditor() {
   });
 }
 
+/** Fetches Blobstore url then displays form that supports image upload. */
+function fetchBlobstoreUrlAndShowForm() {
+  fetch('/blobstore-upload-url')
+    .then((response) => {
+      return response.text();
+    })
+    .then((imageUploadUrl) => {
+      const messageForm = document.getElementById('upload-dp');
+      messageForm.action = imageUploadUrl;
+      messageForm.classList.remove('hidden');
+    });
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
@@ -103,5 +134,7 @@ function buildUI() {
   createMapForUserPage();
   fetchMessages();
   fetchAboutMe();
+  fetchBlobstoreUrlAndShowForm();
   loadMarkdownEditor();
+  fetchProfilePic();
 }

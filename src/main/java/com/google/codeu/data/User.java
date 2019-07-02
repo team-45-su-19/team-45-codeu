@@ -4,10 +4,12 @@ public class User {
 
   private String email;
   private String aboutMe;
+  private String profilePicUrl;
 
-  public User(String email, String aboutMe) {
+  public User(String email, String aboutMe, String profilePicUrl) {
     this.email = email;
     this.aboutMe = aboutMe;
+    this.profilePicUrl = profilePicUrl;
   }
 
   public String getEmail(){
@@ -16,5 +18,9 @@ public class User {
 
   public String getAboutMe() {
     return aboutMe;
+  }
+
+  public String getProfilePicUrl() {
+    return profilePicUrl;
   }
 }
