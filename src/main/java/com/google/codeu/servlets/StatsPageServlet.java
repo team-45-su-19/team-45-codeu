@@ -1,6 +1,7 @@
 package com.google.codeu.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.codeu.data.Datastore;
 import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 
 /**
  * Handles fetching site statistics.
@@ -33,8 +35,15 @@ public class StatsPageServlet extends HttpServlet{
     response.setContentType("application/json");
 
     String user = request.getParameter("user");
+    String all = request.getParameter("all");
 
-    if (user != null) {
+    if (all != null) {
+      HashMap userMessageCounts = datastore.getAllUserMessageCount();
+      Gson gson = new Gson();
+      String json = gson.toJson(userMessageCounts);
+      response.getOutputStream().println(json);
+    }
+    else if (user != null) {
       int userMessageCount = datastore.getUserMessageCount(user);
       JsonObject jsonObject = new JsonObject();
       jsonObject.addProperty("userMessageCount", userMessageCount);
