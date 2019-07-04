@@ -10,7 +10,7 @@ function fetchUserList(){
     users.forEach((user) => {
       buildUserListItem(user).then((userListItem) => {
         list.appendChild(userListItem);
-      })
+      });
     });
   });
 }
@@ -38,7 +38,7 @@ function buildUserListItem(user){
     userLink.classList.add('d-flex');
     userLink.classList.add('justify-content-between');
     userLink.classList.add('align-items-center');
-    userLink.appendChild(countBadge)
+    userLink.appendChild(countBadge);
     return userLink;
   });
 }
