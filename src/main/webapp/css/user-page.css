@@ -52,8 +52,11 @@
   display: none;
 }
 
-#profile-pic-form,
-#about-me-container {
+.cta-inner {
+  pointer-events: none;
+}
+
+.with-events {
   pointer-events: all;
 }
 

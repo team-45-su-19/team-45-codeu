@@ -1,0 +1,6 @@
+/* Set map style */
+#map {
+  width: 300px;
+  height: 300px;
+  border: thin solid black;
+}

@@ -152,6 +152,5 @@ function buildUI() {
   fetchMessages();
   fetchAboutMe();
   fetchBlobstoreUrlAndShowForm();
-  loadMarkdownEditor();
   fetchProfilePic();
 }
