@@ -42,6 +42,37 @@ function formatTimestamp(messageTime){
           timestamp.getHours()+":"+timestamp.getMinutes()+":"+timestamp.getSeconds();
 }
 
+function createDeleteButton(deleteConfirmationDiv){
+  var icon = document.createElement('i');
+  icon.classList.add('fa','fa-trash','delete');
+  icon.onclick = function(){
+    deleteConfirmationDiv.classList.add('show');
+    deleteConfirmationDiv.parentNode.classList.add('blur');
+  }
+  return icon;
+}
+
+function createDeleteConfirmationDiv(){
+  var div = document.createElement('div');
+  div.classList.add('deleteConfirmation','alert','alert-warning');
+  var text = document.createTextNode('Are you sure you want to delete this post?');
+  var para = document.createElement('p');
+  para.appendChild(text);
+  div.appendChild(para);
+  var yesBtn = document.createElement('button');
+  yesBtn.appendChild(document.createTextNode('Yes'));
+  var noBtn = document.createElement('button');
+  noBtn.appendChild(document.createTextNode('No'));
+  noBtn.onclick = function() {
+    div.classList.remove("show");
+    div.parentNode.classList.remove("blur");
+  }
+  div.appendChild(noBtn);
+  div.appendChild(yesBtn);
+  return div;
+}
+
+
 function buildMessageInTimeline(message, flip){
   const imageDiv = document.createElement('div');
   imageDiv.classList.add("timeline-image");
@@ -70,12 +101,15 @@ function buildMessageInTimeline(message, flip){
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("timeline-panel");
+  const deleteConfirmationDiv = createDeleteConfirmationDiv();
+  messageDiv.appendChild(deleteConfirmationDiv);
+  messageDiv.appendChild(createDeleteButton(deleteConfirmationDiv));
   messageDiv.appendChild(timeDiv);
   messageDiv.appendChild(bodyDiv);
 
   const messageBlock = document.createElement('li');
   if(flip%2 == 1){
-  messageBlock.classList.add('timeline-inverted');
+    messageBlock.classList.add('timeline-inverted');
   }
   messageBlock.appendChild(imageDiv);
   messageBlock.appendChild(messageDiv);

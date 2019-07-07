@@ -45,6 +45,64 @@
   text-align: left;
 }
 
+.timeline > li .timeline-panel{
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 0.5em;
+}
+
+.blur > *:not(.deleteConfirmation) {
+  filter: blur(1.1px);
+  pointer-events: none;
+}
+
+.timeline .delete {
+  float: right;
+  margin-right: -19px;
+  font-size: 1.5em;
+  color: rgba(255, 146, 52, .8);
+}
+
+.timeline .delete:hover, .timeline .delete:active{
+  color: rgba(229, 127, 39, 0.87);
+  cursor: pointer;
+}
+
+.deleteConfirmation {
+  display: none;
+  z-index: 101;
+  position: absolute;
+  width: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 0.4em 0em;
+  border:0.1em solid rgb(133, 100, 4);
+}
+
+.deleteConfirmation.show{
+  display: block;
+}
+
+.deleteConfirmation p{
+  line-height:1.5;
+  font-weight: bold;
+}
+
+.deleteConfirmation button{
+  background-color:rgba(0,0,0,0);
+  margin:0 10%;
+  border:0.1em solid rgb(133, 100, 4);
+  border-radius:0.2em;
+  color:rgb(133, 100, 4);
+  text-align:center;
+}
+
+.deleteConfirmation button:hover{
+  color: rgba(255,255,255,1);
+  background-color: rgb(133, 100, 4);
+}
+
 .timeline > li .timeline-panel::before {
   right: auto;
   left: -15px;
@@ -133,7 +191,12 @@
     padding: 0 20px 20px 30px;
     text-align: right;
   }
-
+  
+  .timeline .delete {
+    float: left;
+    margin-left: -29px;
+  }
+  
   .timeline > li .timeline-image {
     left: 50%;
     width: 100px;
@@ -152,6 +215,11 @@
     padding: 0 30px 20px 20px;
     text-align: left;
   }
+
+  .timeline .timeline-inverted .delete {
+    float: right;
+    margin-right: -29px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -161,6 +229,11 @@
 
   .timeline > li .timeline-panel {
     padding: 0 20px 20px;
+  }
+  
+  .timeline .delete {
+    float: left;
+    margin-left: -19px;
   }
 
   .timeline > li .timeline-image {
@@ -178,6 +251,11 @@
   .timeline > li.timeline-inverted > .timeline-panel {
     padding: 0 20px 20px;
   }
+
+  .timeline .timeline-inverted .delete {
+    float: right;
+    margin-right: -19px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -194,6 +272,11 @@
     height: 170px;
     margin-left: -85px;
   }
+  
+  .timeline .delete {
+    float: left;
+    margin-left: -99px;
+  }
 
   .timeline > li .timeline-image h4 {
     margin-top: 40px;
@@ -201,6 +284,11 @@
 
   .timeline > li.timeline-inverted > .timeline-panel {
     padding: 0 100px 20px 20px;
+  }
+
+  .timeline .timeline-inverted .delete {
+    float: right;
+    margin-right: -99px;
   }
 }
 
