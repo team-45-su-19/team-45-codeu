@@ -25,6 +25,8 @@
   position: relative;
   min-height: 50px;
   margin-bottom: 50px;
+  transition: height 0.3s ease-out;
+  overflow:hidden;
 }
 
 .timeline > li::after,
@@ -46,13 +48,8 @@
 }
 
 .timeline > li .timeline-panel{
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.6);
   border-radius: 0.5em;
-}
-
-.blur > *:not(.deleteConfirmation) {
-  filter: blur(1.1px);
-  pointer-events: none;
 }
 
 .timeline .delete {
@@ -60,47 +57,54 @@
   margin-right: -19px;
   font-size: 1.5em;
   color: rgba(255, 146, 52, .8);
+  padding: 0;
+  background-color: rgba(255,255,255,0);
+  border-style: hidden;
 }
 
 .timeline .delete:hover, .timeline .delete:active{
   color: rgba(229, 127, 39, 0.87);
-  cursor: pointer;
 }
 
 .deleteConfirmation {
-  display: none;
-  z-index: 101;
   position: absolute;
-  width: 90%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  left: 0;
   text-align: center;
-  padding: 0.4em 0em;
-  border:0.1em solid rgb(133, 100, 4);
+  transition: opacity 0.1s ease;
+  -webkit-transition: opacity 0.1s ease;
+  -moz-transition: opacity 0.1s ease;
+  font-family:sans-serif;
+  background-color:#29130dcf;
+  color:white;
 }
 
-.deleteConfirmation.show{
-  display: block;
+.deleteConfirmation a{
+  color:white;
+  text-decoration: underline;
+  font-weight:bold;
 }
 
-.deleteConfirmation p{
-  line-height:1.5;
-  font-weight: bold;
+.deleteConfirmation a:hover{
+  color:#c3bdbd;
 }
 
 .deleteConfirmation button{
-  background-color:rgba(0,0,0,0);
-  margin:0 10%;
-  border:0.1em solid rgb(133, 100, 4);
-  border-radius:0.2em;
-  color:rgb(133, 100, 4);
-  text-align:center;
+  color: white;
 }
 
 .deleteConfirmation button:hover{
-  color: rgba(255,255,255,1);
-  background-color: rgb(133, 100, 4);
+  color: white;
+}
+
+.deleteConfirmation.show{
+  z-index:101;
+  opacity: 1;
+}
+
+.deleteConfirmation.hide{
+  z-index: -1;
+  opacity: 0;
 }
 
 .timeline > li .timeline-panel::before {
