@@ -79,17 +79,17 @@
   color:white;
 }
 
-.deleteConfirmation a{
-  color:white;
+.deleteConfirmation a {
+  color: white;
   text-decoration: underline;
-  font-weight:bold;
+  font-weight: bold;
 }
 
-.deleteConfirmation a:hover{
-  color:#c3bdbd;
+.deleteConfirmation a:hover {
+  color: #c3bdbd;
 }
 
-.deleteConfirmation button{
+.deleteConfirmation button {
   color: white;
 }
 
@@ -200,7 +200,7 @@
     float: left;
     margin-left: -29px;
   }
-  
+
   .timeline > li .timeline-image {
     left: 50%;
     width: 100px;
@@ -234,7 +234,7 @@
   .timeline > li .timeline-panel {
     padding: 0 20px 20px;
   }
-  
+
   .timeline .delete {
     float: left;
     margin-left: -19px;
@@ -276,7 +276,7 @@
     height: 170px;
     margin-left: -85px;
   }
-  
+
   .timeline .delete {
     float: left;
     margin-left: -99px;

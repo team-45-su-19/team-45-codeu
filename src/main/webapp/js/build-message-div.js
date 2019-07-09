@@ -90,7 +90,7 @@ function createDeleteConfirmationDiv(){
   closeBtn.onclick = function(){
     div.classList.remove('show');
     div.classList.add('hide');
-  }
+  };
   var text = document.createTextNode('Are you sure you want to delete this post?');
   var delLink = document.createElement('a');
   delLink.href='#';
@@ -98,7 +98,7 @@ function createDeleteConfirmationDiv(){
   delLink.onclick = function() {
     deletePost(div.parentNode.parentNode);
     return false;
-  }
+  };
   div.appendChild(closeBtn);
   div.appendChild(text);
   div.appendChild(delLink);
