@@ -87,9 +87,9 @@ function fetchProfilePic(){
 function buildNoPostsDiv(viewingSelf) {
   var noPostsDiv = document.createElement('div');
   noPostsDiv.id = 'noPosts';
-  var text = document.createTextNode('The user has no posts yet.');
+  var text = document.createTextNode('This user has no posts yet.');
   if(viewingSelf){
-    text = document.createTextNode('I have no posts yet.');
+    text = document.createTextNode('You have no posts yet.');
   }
   var para = document.createElement('p');
   para.appendChild(text);

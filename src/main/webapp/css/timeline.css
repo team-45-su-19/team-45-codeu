@@ -26,7 +26,7 @@
   min-height: 50px;
   margin-bottom: 50px;
   transition: height 0.3s ease-out;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .timeline > li::after,
@@ -47,7 +47,7 @@
   text-align: left;
 }
 
-.timeline > li .timeline-panel{
+.timeline > li .timeline-panel {
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 0.5em;
 }
@@ -58,11 +58,11 @@
   font-size: 1.5em;
   color: rgba(255, 146, 52, .8);
   padding: 0;
-  background-color: rgba(255,255,255,0);
+  background-color: rgba(255, 255, 255, 0);
   border-style: hidden;
 }
 
-.timeline .delete:hover, .timeline .delete:active{
+.timeline .delete:hover, .timeline .delete:active {
   color: rgba(229, 127, 39, 0.87);
 }
 
@@ -74,9 +74,9 @@
   transition: opacity 0.1s ease;
   -webkit-transition: opacity 0.1s ease;
   -moz-transition: opacity 0.1s ease;
-  font-family:sans-serif;
-  background-color:#29130dcf;
-  color:white;
+  font-family: sans-serif;
+  background-color: rgba(34, 17, 0, 0.9);
+  color: white;
 }
 
 .deleteConfirmation a {
@@ -86,7 +86,7 @@
 }
 
 .deleteConfirmation a:hover {
-  color: #c3bdbd;
+  color: rgba(204, 187, 187, 1);
 }
 
 .deleteConfirmation button {

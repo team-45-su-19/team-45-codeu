@@ -43,17 +43,17 @@ function formatTimestamp(messageTime){
 }
 
 function createDeleteButton(deleteConfirmationDiv){
-  var btn = document.createElement('button');
-  btn.type='button';
-  btn.classList.add('delete');
+  var deleteBtn = document.createElement('button');
+  deleteBtn.type='button';
+  deleteBtn.classList.add('delete');
   var icon = document.createElement('i');
-  icon.classList.add('fa','fa-trash');
-  btn.appendChild(icon);
-  btn.onclick = function(){
+  icon.classList.add('fa','fa-trash', 'm-2');
+  deleteBtn.appendChild(icon);
+  deleteBtn.onclick = function(){
     deleteConfirmationDiv.classList.remove('hide');
     deleteConfirmationDiv.classList.add('show');
   };
-  return btn;
+  return deleteBtn;
 }
 
 function deletePost(messageBlock) {
@@ -80,7 +80,7 @@ function deletePost(messageBlock) {
   }, 200);
 }
 
-function createDeleteConfirmationDiv(){
+function createDeleteConfirmationDiv(message_id, location_id){
   var div = document.createElement('div');
   div.classList.add('deleteConfirmation','alert','alert-warning','hide');
   var closeBtn = document.createElement('button');
@@ -91,11 +91,15 @@ function createDeleteConfirmationDiv(){
     div.classList.remove('show');
     div.classList.add('hide');
   };
-  var text = document.createTextNode('Are you sure you want to delete this post?');
+  var text = document.createTextNode('Are you sure you want to delete this post? ');
   var delLink = document.createElement('a');
-  delLink.href='#';
+  delLink.href = '#';
   delLink.appendChild(document.createTextNode('Delete'));
   delLink.onclick = function() {
+    var xhttp = new XMLHttpRequest();
+    var params = 'messageid='+message_id+'&locationid='+location_id;
+    xhttp.open('POST', '/messages?'+params,true);
+    xhttp.send();
     deletePost(div.parentNode.parentNode);
     return false;
   };
@@ -135,7 +139,7 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("timeline-panel");
   if(viewingSelf) {
-    const deleteConfirmationDiv = createDeleteConfirmationDiv();
+    const deleteConfirmationDiv = createDeleteConfirmationDiv(message.id, message.location_id);
     messageDiv.appendChild(deleteConfirmationDiv);
     messageDiv.appendChild(createDeleteButton(deleteConfirmationDiv));
   }
