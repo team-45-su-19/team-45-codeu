@@ -117,7 +117,7 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   const image = document.createElement('img');
   image.classList.add("rounded-circle");
   image.classList.add("img-fluid");
-  image.src ="/img/products-01.jpg";
+  image.src ="/img/default-profile-pic.jpeg";
   image.alt ="";
   imageDiv.appendChild(image);
 
