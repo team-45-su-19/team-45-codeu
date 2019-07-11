@@ -31,7 +31,7 @@ function setPageTitle() {
 function setAboutMe() {
   var form = document.createElement("form");
   var aboutMeText = document.createElement("input");
-  var text = document.getElementById("about-me-text").innerText;
+  var text = document.getElementById("about-me-text-logged-in").innerText;
   if (text ==null){text="This user has not entered self-introduction yet.";}
 
   form.method = "POST";
@@ -44,37 +44,37 @@ function setAboutMe() {
   form.submit();
 }
 
-/**
- * Shows the message form if the user is logged in and viewing their own page.
- */
-function showMessageFormIfViewingSelf() {
-
-  fetch('/login-status')
-      .then((response) => {
-        return response.json();
-      })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn &&
-            loginStatus.username == parameterUsername) {
-          const redirectButton = document.getElementById('new-post');
-          redirectButton.classList.remove('hidden');
-        }
-      });
-}
-
 /**Fetches About Me information of user**/
 function fetchAboutMe(){
-  const url = '/about?user=' + parameterUsername;
-  fetch(url).then((response) => {
-    return response.text();
-  }).then((aboutMe) => {
-    const aboutMeContainer = document.getElementById('about-me-text');
-    if(!/\S/.test(aboutMe)){
-      aboutMe = 'This user has not entered any information yet.';
-    }
-
-    aboutMeContainer.innerHTML = aboutMe;
-
+  // Choose about me container depending on user's login status.
+  fetch('/login-status')
+    .then((response) => {
+        return response.json();
+      })
+    .then((loginStatus) => {
+      if (loginStatus.isLoggedIn &&
+          loginStatus.username == parameterUsername) {
+        document.getElementById('new-post').classList.remove('hidden');
+        document.getElementById('about-me-container-logged-in').classList.remove('hidden');
+        return 'about-me-text-logged-in';
+      }
+      else{
+        document.getElementById('about-me-container-not-logged-in').classList.remove('hidden');
+        return 'about-me-text-not-logged-in';
+      }
+    })
+    // fetch aboutMe from server
+    .then((aboutMeTextId) => {
+      const url = '/about?user=' + parameterUsername;
+      fetch(url).then((response) => {
+        return response.text();
+      }).then((aboutMe) => {
+        const aboutMeContainer = document.getElementById(aboutMeTextId);
+        if(!/\S/.test(aboutMe)){
+          aboutMe = 'This user has not entered any information yet.';
+        }
+        aboutMeContainer.innerHTML = aboutMe;
+      });
   });
 }
 
@@ -100,31 +100,18 @@ function fetchProfilePic(){
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((messages) => {
-        const messagesContainer = document.getElementById('message-container');
-        if (messages.length == 0) {
-          messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
-        } else {
-          messagesContainer.innerHTML = '';
-        }
-        messagesContainer.appendChild(buildTimeline(messages));
-      });
-}
-
-function loadMarkdownEditor() {
-  let simplemde = new SimpleMDE({
-    autoDownloadFontAwesome: true,
-  	autosave: {
-  		enabled: true,
-  		uniqueId: "message "
-  	},
-  	element: document.getElementById("message-input"),
-  	forceSync: true,
-  	status: false
-  });
+    .then((response) => {
+      return response.json();
+    })
+    .then((messages) => {
+      const messagesContainer = document.getElementById('message-container');
+      if (messages.length == 0) {
+        messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
+      } else {
+        messagesContainer.innerHTML = '';
+      }
+      messagesContainer.appendChild(buildTimeline(messages));
+    });
 }
 
 /** Fetches Blobstore url then displays form that supports image upload. */
@@ -147,7 +134,6 @@ function redirectToNewPost() {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
-  showMessageFormIfViewingSelf();
   fetchMessages();
   fetchAboutMe();
   fetchBlobstoreUrlAndShowForm();
