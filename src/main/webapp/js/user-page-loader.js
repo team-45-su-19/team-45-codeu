@@ -70,7 +70,7 @@ function fetchAboutMe(){
     return response.text();
   }).then((aboutMe) => {
     const aboutMeContainer = document.getElementById('about-me-text');
-    if(/\s/.test(aboutMe)){
+    if(!/\S/.test(aboutMe)){
       aboutMe = 'This user has not entered any information yet.';
     }
 
