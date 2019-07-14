@@ -11,7 +11,7 @@ function createMapWithDefaultMarkers(){
   createMarker(1.280547, 103.844502, 'Maxwell Food Centre', '1 Kadayanallur St 069184');
   createMarker(1.308398, 103.885808, 'Old Airport Road Food Centre', '51 Old Airport Rd, Singapore 390051');
   createMarker(1.331814, 103.938867, 'Bedok 85 Market', '85 Bedok North Street 4, Singapore 460085');
-};
+}
 
 /* Add landmark to map */
 function createMarker(lat, lng, title, address) {
