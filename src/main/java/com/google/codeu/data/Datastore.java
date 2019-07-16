@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.HashMap;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
@@ -235,6 +236,24 @@ public class Datastore {
   /** Returns the total number of messages for all users. */
   public int getTotalMessageCount(){
     Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    return results.countEntities(FetchOptions.Builder.withDefaults());
+  }
+
+  public HashMap<String, Integer> getAllUserMessageCount() {
+    HashMap<String, Integer>  userCounts = new HashMap();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+      userCounts.putIfAbsent((String) entity.getProperty("user"), 0);
+      userCounts.replace((String) entity.getProperty("user"),userCounts.getOrDefault((String) entity.getProperty("user"),0) + 1);
+    }
+    return userCounts;
+  }
+
+  public int getUserMessageCount(String email) {
+    Query query = new Query("User")
+        .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
     PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withDefaults());
   }
