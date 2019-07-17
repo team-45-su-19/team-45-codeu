@@ -49,7 +49,19 @@ function buildMessageInTimeline(message, flip){
   const image = document.createElement('img');
   image.classList.add("rounded-circle");
   image.classList.add("img-fluid");
-  image.src ="/img/default-profile-pic.jpeg";
+
+  const url = '/image-form-handler?user=' + message.user;
+    fetch(url).then((response) => {
+      return response.text();
+    }).then((profilePicUrl) => {
+      if(profilePicUrl == ''){
+        image.src = "/img/default-profile-pic.jpeg";
+      }else{
+        image.src = profilePicUrl;
+      }
+    });
+
+  image.style = "object-fit: cover; height: 100%;";
   image.alt ="";
   imageDiv.appendChild(image);
 
