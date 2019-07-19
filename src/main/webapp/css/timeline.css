@@ -25,6 +25,8 @@
   position: relative;
   min-height: 50px;
   margin-bottom: 50px;
+  transition: height 0.3s ease-out;
+  overflow: hidden;
 }
 
 .timeline > li::after,
@@ -43,6 +45,66 @@
   width: 100%;
   padding: 0 20px 0 100px;
   text-align: left;
+}
+
+.timeline > li .timeline-panel {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 0.5em;
+}
+
+.timeline .delete {
+  float: right;
+  margin-right: -19px;
+  font-size: 1.5em;
+  color: rgba(255, 146, 52, .8);
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0);
+  border-style: hidden;
+}
+
+.timeline .delete:hover, .timeline .delete:active {
+  color: rgba(229, 127, 39, 0.87);
+}
+
+.deleteConfirmation {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  transition: opacity 0.1s ease;
+  -webkit-transition: opacity 0.1s ease;
+  -moz-transition: opacity 0.1s ease;
+  font-family: sans-serif;
+  background-color: rgba(34, 17, 0, 0.9);
+  color: white;
+}
+
+.deleteConfirmation a {
+  color: white;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.deleteConfirmation a:hover {
+  color: rgba(204, 187, 187, 1);
+}
+
+.deleteConfirmation button {
+  color: white;
+}
+
+.deleteConfirmation button:hover {
+  color: white;
+}
+
+.deleteConfirmation.show {
+  z-index:101;
+  opacity: 1;
+}
+
+.deleteConfirmation.hide {
+  z-index: -1;
+  opacity: 0;
 }
 
 .timeline > li .timeline-panel::before {
@@ -135,6 +197,11 @@
     text-align: right;
   }
 
+  .timeline .delete {
+    float: left;
+    margin-left: -29px;
+  }
+
   .timeline > li .timeline-image {
     left: 50%;
     width: 100px;
@@ -153,6 +220,11 @@
     padding: 0 30px 20px 20px;
     text-align: left;
   }
+
+  .timeline .timeline-inverted .delete {
+    float: right;
+    margin-right: -29px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -162,6 +234,11 @@
 
   .timeline > li .timeline-panel {
     padding: 0 20px 20px;
+  }
+
+  .timeline .delete {
+    float: left;
+    margin-left: -19px;
   }
 
   .timeline > li .timeline-image {
@@ -178,6 +255,11 @@
 
   .timeline > li.timeline-inverted > .timeline-panel {
     padding: 0 20px 20px;
+  }
+
+  .timeline .timeline-inverted .delete {
+    float: right;
+    margin-right: -19px;
   }
 }
 
@@ -196,12 +278,22 @@
     margin-left: -85px;
   }
 
+  .timeline .delete {
+    float: left;
+    margin-left: -99px;
+  }
+
   .timeline > li .timeline-image h4 {
     margin-top: 40px;
   }
 
   .timeline > li.timeline-inverted > .timeline-panel {
     padding: 0 100px 20px 20px;
+  }
+
+  .timeline .timeline-inverted .delete {
+    float: right;
+    margin-right: -99px;
   }
 }
 

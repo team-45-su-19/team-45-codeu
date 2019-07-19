@@ -59,6 +59,22 @@ public class Datastore {
     datastore.put(messageEntity);
   }
 
+  public void deleteMessage(String messageId, String locationId) {
+    Key messageKey = KeyFactory.createKey("Message", messageId);
+    Key locationKey = KeyFactory.createKey("Location", locationId);
+    try{
+      datastore.delete(messageKey);
+      if(locationId.length() > 0){
+        Entity locationEntity = retrieveLocationEntity(locationId);
+        if(locationEntity != null) {
+          updateLocationCount(locationEntity, -1);
+        }
+      }
+    } catch(Exception e) {
+      System.err.println(e);
+    }
+  }
+
   /**
    * Gets messages posted by a specific user.
    *
@@ -96,11 +112,15 @@ public class Datastore {
     }
   }
 
-  public void addLocationCountByOne(Entity locationEntity) {
+  public void updateLocationCount(Entity locationEntity, int increment) {
     int count = (int)(long)locationEntity.getProperty("count");
-    locationEntity.setProperty("count", ++count);
+    if(count + increment == 0) {
+      datastore.delete(locationEntity.getKey());
+    } else {
+      locationEntity.setProperty("count", count + increment);
 
-    datastore.put(locationEntity);
+      datastore.put(locationEntity);
+    }
   }
 
   /**
