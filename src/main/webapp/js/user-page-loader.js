@@ -58,10 +58,12 @@ function checkIfViewingSelf() {
           loginStatus.username == parameterUsername) {
         document.getElementById('new-post').classList.remove('hidden');
         document.getElementById('about-me-container-logged-in').classList.remove('hidden');
+        fetchMessages(true);
         return 'about-me-text-logged-in';
       }
       else{
         document.getElementById('about-me-container-not-logged-in').classList.remove('hidden');
+        fetchMessages(false);
         return 'about-me-text-not-logged-in';
       }
     })
@@ -76,7 +78,6 @@ function checkIfViewingSelf() {
           aboutMe = 'This user has not entered any information yet.';
         }
         aboutMeContainer.innerHTML = aboutMe;
-        fetchMessages(loginStatus.isLoggedIn && loginStatus.username == parameterUsername);
       });
   });
 }
@@ -164,7 +165,6 @@ function redirectToNewPost() {
 function buildUI() {
   setPageTitle();
   checkIfViewingSelf();
-  createMapForUserPage();
   fetchBlobstoreUrlAndShowForm();
   fetchProfilePic();
 }

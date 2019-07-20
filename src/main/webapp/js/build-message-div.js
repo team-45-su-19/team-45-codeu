@@ -113,6 +113,9 @@ function createDeleteConfirmationDiv(message_id, location_id){
 
 
 function buildMessageInTimeline(message, flip, viewingSelf){
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add("timeline-panel");
+  
   const imageDiv = document.createElement('div');
   imageDiv.classList.add("timeline-image");
 
@@ -157,8 +160,6 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   renderedHtml = renderedHtml.replace(/<img /g, '<img class="w-100 p-1" ');
   bodyDiv.innerHTML = renderedHtml;
 
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add("timeline-panel");
   if(viewingSelf) {
     const deleteConfirmationDiv = createDeleteConfirmationDiv(message.id, message.location_id);
     messageDiv.appendChild(deleteConfirmationDiv);
