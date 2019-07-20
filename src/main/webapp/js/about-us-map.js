@@ -29,6 +29,5 @@ function createMarker(lat, lng, title, address) {
 }
 
 function buildUI(){
-  initiateUI();
   createMapWithDefaultMarkers();
 }

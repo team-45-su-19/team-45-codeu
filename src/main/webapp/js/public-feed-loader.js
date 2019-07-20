@@ -11,7 +11,7 @@ function fetchMessages(){
   else{
     messageContainer.innerHTML = '';
   }
-  messageContainer.appendChild(buildTimeline(messages));
+  messageContainer.appendChild(buildTimeline(messages, false));
 });
 }
 

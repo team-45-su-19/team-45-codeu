@@ -191,17 +191,3 @@ function buildTimeline(messages, viewingSelf){
   }
   return timeline;
 }
-
-function buildTimeline(messages){
-  const timeline = document.createElement('ul');
-  timeline.classList.add("timeline");
-
-  //When flip is odd, create "timeline-inverted"
-  var flip = 0;
-  for (message of messages){
-    const messageDiv = buildMessageInTimeline(message, flip, false);
-    timeline.appendChild(messageDiv);
-    flip++;
-  }
-  return timeline;
-}
