@@ -31,7 +31,7 @@ function setPageTitle() {
 function setAboutMe() {
   var form = document.createElement("form");
   var aboutMeText = document.createElement("input");
-  var text = document.getElementById("about-me-text").innerText;
+  var text = document.getElementById("about-me-text-logged-in").innerText;
   if (text ==null){text="This user has not entered self-introduction yet.";}
 
   form.method = "POST";
@@ -44,38 +44,40 @@ function setAboutMe() {
   form.submit();
 }
 
+
 /**
  * Build message form and messages depending on the user's login status.
  */
 function checkIfViewingSelf() {
-
   fetch('/login-status')
-      .then((response) => {
+    .then((response) => {
         return response.json();
       })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn &&
-            loginStatus.username == parameterUsername) {
-          const redirectButton = document.getElementById('new-post');
-          redirectButton.classList.remove('hidden');
+    .then((loginStatus) => {
+      if (loginStatus.isLoggedIn &&
+          loginStatus.username == parameterUsername) {
+        document.getElementById('new-post').classList.remove('hidden');
+        document.getElementById('about-me-container-logged-in').classList.remove('hidden');
+        return 'about-me-text-logged-in';
+      }
+      else{
+        document.getElementById('about-me-container-not-logged-in').classList.remove('hidden');
+        return 'about-me-text-not-logged-in';
+      }
+    })
+    // fetch aboutMe from server
+    .then((aboutMeTextId) => {
+      const url = '/about?user=' + parameterUsername;
+      fetch(url).then((response) => {
+        return response.text();
+      }).then((aboutMe) => {
+        const aboutMeContainer = document.getElementById(aboutMeTextId);
+        if(!/\S/.test(aboutMe)){
+          aboutMe = 'This user has not entered any information yet.';
         }
+        aboutMeContainer.innerHTML = aboutMe;
         fetchMessages(loginStatus.isLoggedIn && loginStatus.username == parameterUsername);
       });
-}
-
-/**Fetches About Me information of user**/
-function fetchAboutMe(){
-  const url = '/about?user=' + parameterUsername;
-  fetch(url).then((response) => {
-    return response.text();
-  }).then((aboutMe) => {
-    const aboutMeContainer = document.getElementById('about-me-text');
-    if(!/\S/.test(aboutMe)){
-      aboutMe = 'This user has not entered any information yet.';
-    }
-
-    aboutMeContainer.innerHTML = aboutMe;
-
   });
 }
 
@@ -163,7 +165,6 @@ function buildUI() {
   setPageTitle();
   checkIfViewingSelf();
   createMapForUserPage();
-  fetchAboutMe();
   fetchBlobstoreUrlAndShowForm();
   fetchProfilePic();
 }

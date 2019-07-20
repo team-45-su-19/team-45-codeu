@@ -65,11 +65,11 @@ limitations under the License.
     </nav>
 
 
-    <!-- Message display -->
+    <!-- About Me and Posts -->
     <section class="page-section cta" id="messages">
 
-      <!-- Text on background -->
-      <div class="container">
+      <!-- About Me for Logged In -->
+      <div class="container hidden" id="about-me-container-logged-in">
         <div class="row">
           <div class="col-xl-9 mx-auto">
             <div class="cta-inner text-center rounded">
@@ -77,7 +77,7 @@ limitations under the License.
                 <span class="section-heading-lower">About Me</span>
               </h2>
               <div class="with-events text-center" id="about-me-container">
-                <p class="text-center" contenteditable="true" id="about-me-text">Loading...</p>
+                <p class="text-center" contenteditable="true" id="about-me-text-logged-in">Loading...</p>
                 <button type="button" class="btn btn-warning" id="save-button" onclick="setAboutMe()">Save</button>
               </div>
               <div class="text-center" id="profile-pic-container">No profile pic...</div>
@@ -94,10 +94,27 @@ limitations under the License.
         </div>
       </div>
 
+
+      <!-- About Me for Not Logged In -->
+      <div class="container hidden" id="about-me-container-not-logged-in">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <div class="cta-inner text-center rounded">
+              <h2 class="section-heading mb-4">
+                <span class="section-heading-lower">About Me</span>
+              </h2>
+              <div class="with-events text-center">
+                <p class="text-center" id="about-me-text-not-logged-in">Loading...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <br>
 
-      <div class="text-center">
-        <button type="button" class="btn btn-warning hidden" id="new-post" onclick="redirectToNewPost()">Click to create new post!</button>
+      <div class="text-center hidden" id="new-post">
+        <button type="button" class="btn btn-warning"  onclick="redirectToNewPost()">Click to create new post!</button>
       </div>
 
       <br>
