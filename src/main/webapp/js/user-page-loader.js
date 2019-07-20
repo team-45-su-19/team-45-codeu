@@ -45,9 +45,9 @@ function setAboutMe() {
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
+ * Build message form and messages depending on the user's login status.
  */
-function showMessageFormIfViewingSelf() {
+function checkIfViewingSelf() {
 
   fetch('/login-status')
       .then((response) => {
@@ -59,6 +59,7 @@ function showMessageFormIfViewingSelf() {
           const redirectButton = document.getElementById('new-post');
           redirectButton.classList.remove('hidden');
         }
+        fetchMessages(loginStatus.isLoggedIn && loginStatus.username == parameterUsername);
       });
 }
 
@@ -96,8 +97,22 @@ function fetchProfilePic(){
   });
 }
 
+function buildNoPostsDiv(viewingSelf) {
+  var noPostsDiv = document.createElement('div');
+  noPostsDiv.id = 'noPosts';
+  var text = document.createTextNode('This user has no posts yet.');
+  if(viewingSelf){
+    text = document.createTextNode('You have no posts yet.');
+  }
+  var para = document.createElement('p');
+  para.appendChild(text);
+  noPostsDiv.appendChild(para);
+  noPostsDiv.hidden = true;
+  return noPostsDiv;
+}
+
 /** Fetches messages and add them to the page. */
-function fetchMessages() {
+function fetchMessages(viewingSelf) {
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
@@ -105,12 +120,11 @@ function fetchMessages() {
       })
       .then((messages) => {
         const messagesContainer = document.getElementById('message-container');
-        if (messages.length == 0) {
-          messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
-        } else {
-          messagesContainer.innerHTML = '';
-        }
-        messagesContainer.appendChild(buildTimeline(messages));
+        messagesContainer.innerHTML = '';
+        var noPostsDiv = buildNoPostsDiv(viewingSelf);
+        messagesContainer.appendChild(noPostsDiv);
+        if(messages.length == 0) noPostsDiv.hidden = false;
+        messagesContainer.appendChild(buildTimeline(messages,viewingSelf));
       });
 }
 
@@ -147,8 +161,8 @@ function redirectToNewPost() {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
-  showMessageFormIfViewingSelf();
-  fetchMessages();
+  checkIfViewingSelf();
+  createMapForUserPage();
   fetchAboutMe();
   fetchBlobstoreUrlAndShowForm();
   fetchProfilePic();
