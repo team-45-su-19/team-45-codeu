@@ -28,12 +28,26 @@ function setPageTitle() {
   document.title = 'User Page - ' + parameterUsername;
 }
 
+function setAboutMe() {
+  var form = document.createElement("form");
+  var aboutMeText = document.createElement("input");
+  var text = document.getElementById("about-me-text").innerText;
+  if (text ==null){text="This user has not entered self-introduction yet.";}
+
+  form.method = "POST";
+  form.action = "/about";
+
+  aboutMeText.value=text;
+  aboutMeText.name="about-me";
+  form.appendChild(aboutMeText);
+  document.body.appendChild(form);
+  form.submit();
+}
+
 /**
  * Build message form and messages depending on the user's login status.
  */
 function checkIfViewingSelf() {
-
-  document.getElementById('about-me-form').classList.remove('hidden');
 
   fetch('/login-status')
       .then((response) => {
@@ -42,8 +56,8 @@ function checkIfViewingSelf() {
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn &&
             loginStatus.username == parameterUsername) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.classList.remove('hidden');
+          const redirectButton = document.getElementById('new-post');
+          redirectButton.classList.remove('hidden');
         }
         fetchMessages(loginStatus.isLoggedIn && loginStatus.username == parameterUsername);
       });
@@ -55,8 +69,8 @@ function fetchAboutMe(){
   fetch(url).then((response) => {
     return response.text();
   }).then((aboutMe) => {
-    const aboutMeContainer = document.getElementById('about-me-container');
-    if(aboutMe == ''){
+    const aboutMeContainer = document.getElementById('about-me-text');
+    if(!/\S/.test(aboutMe)){
       aboutMe = 'This user has not entered any information yet.';
     }
 
@@ -140,6 +154,10 @@ function fetchBlobstoreUrlAndShowForm() {
     });
 }
 
+function redirectToNewPost() {
+  location.href = "new-post.html";
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
@@ -147,6 +165,5 @@ function buildUI() {
   createMapForUserPage();
   fetchAboutMe();
   fetchBlobstoreUrlAndShowForm();
-  loadMarkdownEditor();
   fetchProfilePic();
 }

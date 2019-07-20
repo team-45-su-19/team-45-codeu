@@ -51,3 +51,12 @@
 .hidden {
   display: none;
 }
+
+.cta-inner {
+  pointer-events: none;
+}
+
+.with-events {
+  pointer-events: all;
+}
+

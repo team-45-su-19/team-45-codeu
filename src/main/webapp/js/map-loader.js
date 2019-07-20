@@ -18,7 +18,7 @@
     createMarker(1.331814, 103.938867, 'Bedok 85 Market', '85 Bedok North Street 4, Singapore 460085');
   };
 
-  exports.createMapForUserPage = function(){
+  exports.createMapForNewPost = function(){
     createDefaultMap();
     map.setZoom(16);
     getCurrentLoc();
