@@ -138,21 +138,18 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   image.alt ="";
   imageDiv.appendChild(image);
 
+  const usernameDiv = document.createElement('div');
+  usernameDiv.classList.add('timeline-heading');
+  usernameText = document.createElement('h4');
+  usernameText.appendChild(document.createTextNode(message.user));
+  usernameDiv.appendChild(usernameText);
+
   const timeDiv = document.createElement('div');
   timeDiv.classList.add('timeline-body');
   timeText = document.createElement('p');
   timeText.classList.add('text-muted');
   timeText.appendChild(document.createTextNode(formatTimestamp(message.timestamp)));
   timeDiv.appendChild(timeText);
-
-  if (message.location_name){
-    const locDiv = document.createElement('div');
-    locDiv.classList.add('timeline-heading');
-    locText = document.createElement('h4');
-    locText.appendChild(document.createTextNode(message.location_name));
-    locDiv.appendChild(locText);
-    messageDiv.appendChild(locDiv);
-  }
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('timeline-body');
@@ -165,7 +162,18 @@ function buildMessageInTimeline(message, flip, viewingSelf){
     messageDiv.appendChild(deleteConfirmationDiv);
     messageDiv.appendChild(createDeleteButton(deleteConfirmationDiv));
   }
+
+  messageDiv.appendChild(usernameDiv);
   messageDiv.appendChild(timeDiv);
+  if (message.location_name){
+      const locDiv = document.createElement('div');
+      locDiv.classList.add('timeline-body');
+      locText = document.createElement('p');
+      locText.classList.add('text-muted');
+      locText.appendChild(document.createTextNode(message.location_name));
+      locDiv.appendChild(locText);
+      messageDiv.appendChild(locDiv);
+  }
   messageDiv.appendChild(bodyDiv);
 
   const messageBlock = document.createElement('li');
