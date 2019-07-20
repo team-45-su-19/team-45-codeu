@@ -25,7 +25,9 @@ function buildMessageDiv(message){
   }
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
+  var renderedHtml = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
+  renderedHtml = renderedHtml.replace(/<img /g, '<img class="w-100 p-1" ');
+  bodyDiv.innerHTML = renderedHtml;
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("message-div");
@@ -151,7 +153,9 @@ function buildMessageInTimeline(message, flip, viewingSelf){
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('timeline-body');
-  bodyDiv.innerHTML = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
+  var renderedHtml = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
+  renderedHtml = renderedHtml.replace(/<img /g, '<img class="w-100 p-1" ');
+  bodyDiv.innerHTML = renderedHtml;
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("timeline-panel");
