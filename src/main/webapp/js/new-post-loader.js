@@ -165,7 +165,7 @@ function replaceLocationInfo(place){
 
 function showLocationChosen(name){
   var message = document.getElementById('location-message');
-  message.innerHTML = message.innerHTML + name;
+  message.innerHTML = "Location Chosen: " + name;
   message.classList.remove('hidden');
 }
 
