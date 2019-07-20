@@ -35,7 +35,6 @@ limitations under the License.
   <script src="/js/navigation-loader.js"></script>
   <script src="/js/build-message-div.js"></script>
   <script src="/js/new-post-loader.js"></script>
-  <script src="/js/map-loader.js"></script>
 
 </head>
 <body onload="initiateUI();">
@@ -68,12 +67,44 @@ limitations under the License.
         <form id="message-form" action="/messages" method="POST">
           Write your new post here:
           <textarea name="text" id="message-input"></textarea>
-          <div class="mt-2 mb-1">
-            Type to search for location:
-            <input class="form-control z-depth-1 text-muted" type="text" name="location_input" value="eg. Maxwell Hawker Center" id="location_input">
+          <div class="hidden" id="location-message">
+            Location Chosen:
           </div>
-          <button type="button" class="btn btn-light" onclick="searchLocationByText()">Search</button>
-          <div class="mt-1 mb-1 " id="map"></div>
+          <br>
+          <!-- Map for searching for location -->
+          <div class="pac-card" id="pac-card">
+            <div>
+              <div id="type-selector" class="pac-controls">
+                <input type="radio" name="type" id="changetype-all" checked="checked">
+                <label for="changetype-all">All</label>
+
+                <input type="radio" name="type" id="changetype-establishment">
+                <label for="changetype-establishment">Establishments</label>
+
+                <input type="radio" name="type" id="changetype-address">
+                <label for="changetype-address">Addresses</label>
+
+                <input type="radio" name="type" id="changetype-geocode">
+                <label for="changetype-geocode">Geocodes</label>
+              </div>
+              <div id="strict-bounds-selector" class="pac-controls">
+                <input type="checkbox" id="use-strict-bounds" value="">
+                <label for="use-strict-bounds">Strict Bounds</label>
+              </div>
+            </div>
+            <div id="pac-container">
+              <input id="pac-input" type="text"
+                     placeholder="Enter a location">
+            </div>
+          </div>
+          <div id="map"></div>
+          <div id="infowindow-content">
+            <img src="" width="16" height="16" id="place-icon">
+            <span id="place-name"  class="title"></span><br>
+            <span id="place-address"></span>
+          </div>
+
+
           <div class="text-center mt-4">
             <input type="submit" class="btn btn-success" value="Submit">
           </div>
