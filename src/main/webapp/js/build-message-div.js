@@ -111,6 +111,9 @@ function createDeleteConfirmationDiv(message_id, location_id){
 
 
 function buildMessageInTimeline(message, flip, viewingSelf){
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add("timeline-panel");
+  
   const imageDiv = document.createElement('div');
   imageDiv.classList.add("timeline-image");
 
@@ -153,8 +156,6 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   bodyDiv.classList.add('timeline-body');
   bodyDiv.innerHTML = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
 
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add("timeline-panel");
   if(viewingSelf) {
     const deleteConfirmationDiv = createDeleteConfirmationDiv(message.id, message.location_id);
     messageDiv.appendChild(deleteConfirmationDiv);
@@ -181,6 +182,20 @@ function buildTimeline(messages, viewingSelf){
   var flip = 0;
   for (message of messages){
     const messageDiv = buildMessageInTimeline(message, flip, viewingSelf);
+    timeline.appendChild(messageDiv);
+    flip++;
+  }
+  return timeline;
+}
+
+function buildTimeline(messages){
+  const timeline = document.createElement('ul');
+  timeline.classList.add("timeline");
+
+  //When flip is odd, create "timeline-inverted"
+  var flip = 0;
+  for (message of messages){
+    const messageDiv = buildMessageInTimeline(message, flip, false);
     timeline.appendChild(messageDiv);
     flip++;
   }
