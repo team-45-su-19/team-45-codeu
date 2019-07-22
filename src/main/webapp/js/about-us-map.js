@@ -16,30 +16,30 @@ function createMapWithDefaultMarkers(){
                 'http://danielfooddiary.com/wp-content/uploads/2019/03/fengshan29.jpg');
 }
 
-function infoContent(title, address, url){
+function infoContent(title, address, img_url){
   var infoDiv = document.createElement('div');
   infoDiv.classList.add('info');
   var name = document.createElement('h1');
   name.innerHTML = title;
   var img = document.createElement('img');
-  img.src = url;
-  var a = document.createElement('p');
-  a.innerHTML = 'Address: ' + address;
+  img.src = img_url;
+  var addr = document.createElement('p');
+  addr.innerHTML = 'Address: ' + address;
   infoDiv.appendChild(img);
   infoDiv.appendChild(name);
-  infoDiv.appendChild(a);
+  infoDiv.appendChild(addr);
   return infoDiv;
 }
 
 /* Add landmark to map */
-function createMarker(lat, lng, title, address, url) {
+function createMarker(lat, lng, title, address, img_url) {
   const marker = new google.maps.Marker({
     position: {lat: lat, lng: lng},
     map: map,
     title: title
   });
   const infoWindow = new google.maps.InfoWindow({
-    content: infoContent(title, address, url),
+    content: infoContent(title, address, img_url),
     maxWidth: 300
   });
   marker.addListener('click', function() {
