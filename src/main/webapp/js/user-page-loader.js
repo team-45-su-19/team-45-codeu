@@ -92,9 +92,8 @@ function fetchProfilePic(){
     if(profilePicUrl == ''){
       profilePicUrl = 'This user has not uploaded any profile picture.';
     }else{
-      profilePicUrl = '<img src=\"' + profilePicUrl + '\" />';
+      profilePicUrl = '<img class=\"rounded-circle square\" src=\"' + profilePicUrl + '\" />';
     }
-
     profilePicContainer.innerHTML = profilePicUrl;
 
   });

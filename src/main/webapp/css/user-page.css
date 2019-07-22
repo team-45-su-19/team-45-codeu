@@ -60,3 +60,8 @@
   pointer-events: all;
 }
 
+.square {
+    width: 250px;
+    height: 250px;
+}
+
