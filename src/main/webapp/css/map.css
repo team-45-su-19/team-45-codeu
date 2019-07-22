@@ -5,7 +5,8 @@
   border: thin solid black;
 }
 
-.info h1 {font-size: 15px;
+.info h1 {
+  font-size: 15px;
 	margin-bottom: 2px;
 }
 
@@ -19,6 +20,7 @@
 	line-height: 16px;
 	font-size: 12px;
 }
+
 .info img{
 	float: right;
 	width: 40%;
