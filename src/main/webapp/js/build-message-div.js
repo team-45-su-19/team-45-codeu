@@ -142,7 +142,7 @@ function buildMessageInTimeline(message, flip, viewingSelf){
       }
     });
 
-  image.style = "object-fit: cover; height: 100%;";
+  image.style = "object-fit: cover; height: 100%; width: 100%;";
   image.alt ="";
   imageDiv.appendChild(image);
 
