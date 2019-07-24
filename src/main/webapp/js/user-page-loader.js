@@ -32,7 +32,7 @@ function setAboutMe() {
   var form = document.createElement("form");
   var aboutMeText = document.createElement("input");
   var text = document.getElementById("about-me-text-logged-in").innerText;
-  if (text ==null){text="This user has not entered self-introduction yet.";}
+  if (text==null) {text="This user has not entered self-introduction yet.";}
 
   form.method = "POST";
   form.action = "/about";
@@ -44,6 +44,21 @@ function setAboutMe() {
   form.submit();
 }
 
+function setNickname() {
+  var form = document.createElement("form");
+  var nicknameText = document.createElement("input");
+  var text = document.getElementById("nickname-text-logged-in").innerText;
+  if (text==null) {text="This user has not entered a nickname yet.";}
+
+  form.method = "POST";
+  form.action = "/nickname";
+
+  nicknameText.value=text;
+  nicknameText.name="nickname";
+  form.appendChild(nicknameText);
+  document.body.appendChild(form);
+  form.submit();
+}
 
 /**
  * Build message form and messages depending on the user's login status.
@@ -59,38 +74,54 @@ function checkIfViewingSelf() {
         document.getElementById('new-post').classList.remove('hidden');
         document.getElementById('about-me-container-logged-in').classList.remove('hidden');
         fetchMessages(true);
-        return 'about-me-text-logged-in';
+        return '-logged-in';
       }
       else{
         document.getElementById('about-me-container-not-logged-in').classList.remove('hidden');
         fetchMessages(false);
-        return 'about-me-text-not-logged-in';
+        return '-not-logged-in';
       }
     })
-    // fetch aboutMe from server
-    .then((aboutMeTextId) => {
-      const url = '/about?user=' + parameterUsername;
-      fetch(url).then((response) => {
+    .then((statusId) => {
+
+      //fetches nickname of user from server
+      const nameUrl = '/nickname?user=' + parameterUsername;
+      fetch(nameUrl).then((response) => {
+        return response.text();
+      }).then((nickname) => {
+        const nicknameContainer = document.getElementById('nickname-text' + statusId);
+        if (!/\S/.test(nickname)) {
+          nickname = "This user has not entered a nickname yet.";
+        }
+        nicknameContainer.innerHTML = nickname;
+      });
+
+      //fetches about me information of user from server
+      const aboutUrl = '/about?user=' + parameterUsername;
+      fetch(aboutUrl).then((response) => {
         return response.text();
       }).then((aboutMe) => {
-        const aboutMeContainer = document.getElementById(aboutMeTextId);
+        const aboutMeContainer = document.getElementById('about-me-text' + statusId);
         if(!/\S/.test(aboutMe)){
           aboutMe = 'This user has not entered any information yet.';
         }
         aboutMeContainer.innerHTML = aboutMe;
       });
+
+      //fetch profile picture of user from server
+      fetchProfilePic(statusId);
   });
 }
 
 /**Fetches profile pic of user**/
-function fetchProfilePic(){
+function fetchProfilePic(statusId){
   const url = '/image-form-handler?user=' + parameterUsername;
   fetch(url).then((response) => {
     return response.text();
   }).then((profilePicUrl) => {
-    const profilePicContainer = document.getElementById('profile-pic-container');
+    const profilePicContainer = document.getElementById('profile-pic-container' + statusId);
     if(profilePicUrl == ''){
-      profilePicUrl = 'This user has not uploaded any profile picture.';
+      profilePicUrl = 'This user has not uploaded any profile picture yet.';
     }else{
       profilePicUrl = '<img class=\"rounded-circle square\" style=\"object-fit: cover;\" src=\"' + profilePicUrl + '\" />';
     }
@@ -165,5 +196,5 @@ function buildUI() {
   setPageTitle();
   checkIfViewingSelf();
   fetchBlobstoreUrlAndShowForm();
-  fetchProfilePic();
+  //fetchProfilePic();
 }

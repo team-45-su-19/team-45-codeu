@@ -75,11 +75,16 @@ limitations under the License.
               <h2 class="section-heading mb-4">
                 <span class="section-heading-lower">About Me</span>
               </h2>
+              <div class="with-events text-center" id="nickname-container">
+                <p class="text-center" contenteditable="true" id="nickname-text-logged-in">Loading...</p>
+                <button type="button" class="btn btn-warning" id="nickname-save-button" onclick="setNickname()">Save</button>
+              </div>
+              <br>
               <div class="with-events text-center" id="about-me-container">
                 <p class="text-center" contenteditable="true" id="about-me-text-logged-in">Loading...</p>
                 <button type="button" class="btn btn-warning" id="save-button" onclick="setAboutMe()">Save</button>
               </div>
-              <div class="text-center m-3" id="profile-pic-container">No profile pic...</div>
+              <div class="text-center m-3" id="profile-pic-container-logged-in">Loading...</div>
               <div class="with-events text-center" id="profile-pic-form">
                 <form id="upload-dp" class="hidden" method="POST" enctype="multipart/form-data">
                   <p>Upload your profile picture:</p>
@@ -103,7 +108,9 @@ limitations under the License.
                 <span class="section-heading-lower">About Me</span>
               </h2>
               <div class="with-events text-center">
+                <p class="text-center" id="nickname-text-not-logged-in">Loading...</p>
                 <p class="text-center" id="about-me-text-not-logged-in">Loading...</p>
+                <div class="text-center m-3" id="profile-pic-container-not-logged-in">Loading...</div>
               </div>
             </div>
           </div>
