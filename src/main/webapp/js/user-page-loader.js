@@ -196,5 +196,4 @@ function buildUI() {
   setPageTitle();
   checkIfViewingSelf();
   fetchBlobstoreUrlAndShowForm();
-  //fetchProfilePic();
 }
