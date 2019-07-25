@@ -43,7 +43,7 @@
   position: relative;
   float: right;
   width: 100%;
-  padding: 0 20px 0;
+  padding: 10px 20px 20px;
   text-align: left;
 }
 
@@ -54,7 +54,7 @@
 
 .timeline .delete {
   float: right;
-  margin-right: -19px;
+  margin-right: 0px;
   font-size: 1.5em;
   color: rgba(255, 146, 52, .8);
   padding: 0;
@@ -144,7 +144,7 @@
 
 .timeline > li.timeline-inverted > .timeline-panel {
   float: right;
-  padding: 0 20px 0;
+  padding: 10px 20px 20px;
   text-align: left;
 }
 
@@ -193,13 +193,13 @@
   .timeline > li .timeline-panel {
     float: left;
     width: 41%;
-    padding: 0 20px 20px 30px;
+    padding: 10px 20px 20px;
     text-align: right;
   }
 
   .timeline .delete {
     float: left;
-    margin-left: -29px;
+    margin-left: 0px;
   }
 
   .timeline > li .timeline-image {
@@ -217,13 +217,13 @@
 
   .timeline > li.timeline-inverted > .timeline-panel {
     float: right;
-    padding: 0 30px 20px 20px;
+    padding: 10px 20px 20px;
     text-align: left;
   }
 
   .timeline .timeline-inverted .delete {
     float: right;
-    margin-right: -29px;
+    margin-right: 0px;
   }
 }
 
@@ -233,12 +233,12 @@
   }
 
   .timeline > li .timeline-panel {
-    padding: 0 20px 20px;
+    padding: 10px 20px 20px;
   }
 
   .timeline .delete {
     float: left;
-    margin-left: -19px;
+    margin-left: 0px;
   }
 
   .timeline > li .timeline-image {
@@ -254,12 +254,12 @@
   }
 
   .timeline > li.timeline-inverted > .timeline-panel {
-    padding: 0 20px 20px;
+    padding: 10px 20px 20px;
   }
 
   .timeline .timeline-inverted .delete {
     float: right;
-    margin-right: -19px;
+    margin-right: 0px;
   }
 }
 
@@ -269,7 +269,7 @@
   }
 
   .timeline > li .timeline-panel {
-    padding: 0 20px 20px;
+    padding: 10px 20px 20px;
   }
 
   .timeline > li .timeline-image {
@@ -280,7 +280,7 @@
 
   .timeline .delete {
     float: left;
-    margin-left: -99px;
+    margin-left: 0px;
   }
 
   .timeline > li .timeline-image h4 {
@@ -288,12 +288,12 @@
   }
 
   .timeline > li.timeline-inverted > .timeline-panel {
-    padding: 0 0 20px 20px;
+    padding: 10px 20px 20px;
   }
 
   .timeline .timeline-inverted .delete {
     float: right;
-    margin-right: -99px;
+    margin-right: 0px;
   }
 }
 
