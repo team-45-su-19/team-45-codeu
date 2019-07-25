@@ -54,7 +54,6 @@
 
 .timeline .delete {
   float: right;
-  margin-right: 0px;
   font-size: 1.5em;
   color: rgba(255, 146, 52, .8);
   padding: 0;
@@ -199,7 +198,6 @@
 
   .timeline .delete {
     float: left;
-    margin-left: 0px;
   }
 
   .timeline > li .timeline-image {
@@ -223,7 +221,6 @@
 
   .timeline .timeline-inverted .delete {
     float: right;
-    margin-right: 0px;
   }
 }
 
@@ -238,7 +235,6 @@
 
   .timeline .delete {
     float: left;
-    margin-left: 0px;
   }
 
   .timeline > li .timeline-image {
@@ -259,7 +255,6 @@
 
   .timeline .timeline-inverted .delete {
     float: right;
-    margin-right: 0px;
   }
 }
 
@@ -280,7 +275,6 @@
 
   .timeline .delete {
     float: left;
-    margin-left: 0px;
   }
 
   .timeline > li .timeline-image h4 {
@@ -293,7 +287,6 @@
 
   .timeline .timeline-inverted .delete {
     float: right;
-    margin-right: 0px;
   }
 }
 
