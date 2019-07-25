@@ -4,7 +4,6 @@
  * @return {Element}
  */
 function buildMessageDiv(message){
-
   const usernameDiv = document.createElement('div');
   usernameDiv.classList.add("left-align");
   usernameDiv.appendChild(document.createTextNode(usernameDiv));
@@ -143,18 +142,24 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   usernameDiv.classList.add('timeline-heading');
   usernameText = document.createElement('h4');
 
+  var nicknameText = '';
   const nameUrl = '/nickname?user=' + message.user;
     fetch(nameUrl).then((response) => {
       return response.text();
     }).then((nickname) => {
-      console.log(">>>>>>>>>>>>>> nickname is " + nickname);
-      if(nickname == ''){
-        console.log(">>>>>>>>>>>. nickname is blank yo");
-        usernameText.appendChild(document.createTextNode(message.user));
+      console.log(">>>>>>>>>>>>>> nickname is (" + nickname + ")");
+      if (!/\S/.test(nickname)) {
+        nicknameText = message.user;
+        console.log(">>>>>>>>>>>. nickname is blank yo so replace with " + nicknameText);
+        return nicknameText;
       } else {
         console.log(">>>>>>>>>>> why is it like dis");
-        usernameText.appendChild(document.createTextNode(nickname));
+        nicknameText = nickname;
+        return nicknameText
       }
+    }).then((result) => {
+      console.log("NicknameText is " + nicknameText);
+      usernameText.appendChild(document.createTextNode(nicknameText));
       usernameDiv.appendChild(usernameText);
     });
 
