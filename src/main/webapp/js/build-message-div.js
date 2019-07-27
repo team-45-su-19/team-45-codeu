@@ -37,6 +37,14 @@ function buildMessageDiv(message){
   return messageDiv;
 }
 
+function createLocationLink(locationId, locationName) {
+    var locationLink = document.createElement("a");
+    locationLink.href = "/feed.html?locationid="+locationId+"&name="+locationName;
+    locationLink.classList.add('locationLink');
+    locationLink.innerHTML = locationName;
+    return locationLink;
+}
+
 function formatTimestamp(messageTime){
   var timestamp = new Date(messageTime);
   return timestamp.getFullYear()+"."+timestamp.getMonth()+"."+timestamp.getDate()
@@ -170,7 +178,7 @@ function buildMessageInTimeline(message, flip, viewingSelf){
       locDiv.classList.add('timeline-body');
       locText = document.createElement('p');
       locText.classList.add('text-muted');
-      locText.appendChild(document.createTextNode(message.location_name));
+      locText.appendChild(createLocationLink(message.location_id, message.location_name));
       locDiv.appendChild(locText);
       messageDiv.appendChild(locDiv);
   }

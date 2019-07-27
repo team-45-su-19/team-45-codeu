@@ -37,8 +37,7 @@ function createMarker(map, location, rank){
     infoWindowContent.classList.add('info');
 
     var title = document.createElement("h1");
-    //title.className="section-heading-upper";
-    title.appendChild(document.createTextNode(location.name));
+    title.appendChild(createLocationLink(location));
     infoWindowContent.appendChild(title);
 
     var visitCount = document.createElement("h2");
@@ -53,4 +52,12 @@ function createMarker(map, location, rank){
     marker.addListener('click', ()=>{
         infoWindow.open(map, marker);
     });
+}
+
+function createLocationLink(location) {
+    var locationLink = document.createElement("a");
+    locationLink.href = "/feed.html?locationid="+location.id+"&name="+location.name;
+    locationLink.classList.add('locationLink');
+    locationLink.innerHTML = location.name;
+    return locationLink;
 }
