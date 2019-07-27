@@ -57,7 +57,7 @@ function createDeleteButton(deleteConfirmationDiv){
   deleteBtn.type='button';
   deleteBtn.classList.add('delete');
   var icon = document.createElement('i');
-  icon.classList.add('fa','fa-trash', 'm-2');
+  icon.classList.add('fa','fa-trash');
   deleteBtn.appendChild(icon);
   deleteBtn.onclick = function(){
     deleteConfirmationDiv.classList.remove('hide');
@@ -123,7 +123,7 @@ function createDeleteConfirmationDiv(message_id, location_id){
 function buildMessageInTimeline(message, flip, viewingSelf){
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("timeline-panel");
-  
+
   const imageDiv = document.createElement('div');
   imageDiv.classList.add("timeline-image");
 
