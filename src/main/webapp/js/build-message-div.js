@@ -39,7 +39,11 @@ function buildMessageDiv(message){
 
 function createLocationLink(locationId, locationName) {
     var locationLink = document.createElement("a");
-    locationLink.href = "/feed.html?locationid="+locationId+"&name="+locationName;
+    if(locationId == undefined) {
+      location.href = "#";
+    } else {
+      locationLink.href = "/feed.html?locationid="+locationId+"&name="+locationName;
+    }
     locationLink.classList.add('locationLink');
     locationLink.innerHTML = locationName;
     return locationLink;

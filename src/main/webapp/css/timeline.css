@@ -52,6 +52,14 @@
   border-radius: 0.5em;
 }
 
+.locationLink {
+  color: grey;
+}
+
+.locationLink:hover {
+  color: #3B3B3C;
+}
+
 .timeline .delete {
   float: right;
   font-size: 1.5em;
