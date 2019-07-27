@@ -34,17 +34,20 @@ function createMarker(map, location, rank){
     });
 
     var infoWindowContent = document.createElement("div");
-    var title = document.createElement("p");
+    infoWindowContent.classList.add('info');
+
+    var title = document.createElement("h1");
     //title.className="section-heading-upper";
     title.appendChild(document.createTextNode(location.name));
     infoWindowContent.appendChild(title);
 
-    var visitCount = document.createElement("p");
+    var visitCount = document.createElement("h2");
     visitCount.appendChild(document.createTextNode(location.count + " visits by our users!"));
     infoWindowContent.appendChild(visitCount);
 
     const infoWindow = new google.maps.InfoWindow({
-        content: infoWindowContent
+        content: infoWindowContent,
+        maxWidth: 300
     });
 
     marker.addListener('click', ()=>{
