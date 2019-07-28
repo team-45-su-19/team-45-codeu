@@ -142,26 +142,30 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   usernameDiv.classList.add('timeline-heading');
   usernameText = document.createElement('h4');
 
+  const messageBlock = document.createElement('li');
+
   var nicknameText = '';
+
+//  usernameText.appendChild(document.createTextNode(nicknameText));
+//  usernameDiv.appendChild(usernameText);
+
   const nameUrl = '/nickname?user=' + message.user;
-    fetch(nameUrl).then((response) => {
-      return response.text();
-    }).then((nickname) => {
-      console.log(">>>>>>>>>>>>>> nickname is (" + nickname + ")");
-      if (!/\S/.test(nickname)) {
-        nicknameText = message.user;
-        console.log(">>>>>>>>>>>. nickname is blank yo so replace with " + nicknameText);
-        return nicknameText;
-      } else {
-        console.log(">>>>>>>>>>> why is it like dis");
-        nicknameText = nickname;
-        return nicknameText
-      }
-    }).then((result) => {
-      console.log("NicknameText is " + nicknameText);
-      usernameText.appendChild(document.createTextNode(nicknameText));
-      usernameDiv.appendChild(usernameText);
-    });
+
+  fetch(nameUrl).then((response) => {
+    return response.text();
+  }).then((nickname) => {
+    nicknameText = nickname;
+    console.log("Let nicknameText = " + nicknameText);
+    if (!/\S/.test(nickname)) {
+      console.log("Nickname was empty");
+      nicknameText = message.user;
+    }
+    console.log(">>>> Final nickname is " + nicknameText);
+    usernameText.appendChild(document.createTextNode(nicknameText));
+    console.log("Gonna append the usernameText to usernameDiv now");
+    usernameDiv.appendChild(usernameText);
+
+
 
   const timeDiv = document.createElement('div');
   timeDiv.classList.add('timeline-body');
@@ -195,12 +199,15 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   }
   messageDiv.appendChild(bodyDiv);
 
-  const messageBlock = document.createElement('li');
-  if(flip%2 == 1){
-    messageBlock.classList.add('timeline-inverted');
-  }
-  messageBlock.appendChild(imageDiv);
-  messageBlock.appendChild(messageDiv);
+//  const messageBlock = document.createElement('li');
+      if(flip%2 == 1){
+        messageBlock.classList.add('timeline-inverted');
+      }
+      messageBlock.appendChild(imageDiv);
+      messageBlock.appendChild(messageDiv);
+  });
+
+
 
   return messageBlock;
 }
