@@ -56,7 +56,11 @@ function createMarker(map, location, rank){
 
 function createLocationLink(location) {
     var locationLink = document.createElement("a");
-    locationLink.href = "/feed.html?locationid="+location.id+"&name="+location.name;
+    if(location.id == undefined) {
+        locationLink.href = "/feed.html";
+    } else{
+        locationLink.href = "/feed.html?locationid="+location.id+"&name="+location.name;
+    }
     locationLink.classList.add('locationLink');
     locationLink.innerHTML = location.name;
     return locationLink;
