@@ -54,6 +54,7 @@
 
 .locationLink {
   color: grey;
+  text-decoration: underline;
 }
 
 .locationLink:hover {
