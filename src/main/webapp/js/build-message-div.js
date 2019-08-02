@@ -154,8 +154,6 @@ function buildMessageInTimeline(message, flip, viewingSelf){
   usernameDiv.classList.add('timeline-heading');
   const usernameText = document.createElement('h4');
 
-  const messageBlock = document.createElement('li');
-
   var nicknameText = '';
   const nameUrl = '/nickname?user=' + message.user;
     fetch(nameUrl).then((response) => {
@@ -168,46 +166,46 @@ function buildMessageInTimeline(message, flip, viewingSelf){
 
       usernameText.appendChild(document.createTextNode(nicknameText));
       usernameDiv.appendChild(usernameText);
-
-      const timeDiv = document.createElement('div');
-      timeDiv.classList.add('timeline-body');
-      timeText = document.createElement('p');
-      timeText.classList.add('text-muted');
-      timeText.appendChild(document.createTextNode(formatTimestamp(message.timestamp)));
-      timeDiv.appendChild(timeText);
-
-      const bodyDiv = document.createElement('div');
-      bodyDiv.classList.add('timeline-body');
-      var renderedHtml = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
-      renderedHtml = renderedHtml.replace(/<img /g, '<img class="w-100 p-1" ');
-      bodyDiv.innerHTML = renderedHtml;
-
-      if(viewingSelf) {
-        const deleteConfirmationDiv = createDeleteConfirmationDiv(message.id, message.location_id);
-        messageDiv.appendChild(deleteConfirmationDiv);
-        messageDiv.appendChild(createDeleteButton(deleteConfirmationDiv));
-      }
-
-      messageDiv.appendChild(usernameDiv);
-      messageDiv.appendChild(timeDiv);
-      if (message.location_name){
-          const locDiv = document.createElement('div');
-          locDiv.classList.add('timeline-body');
-          locText = document.createElement('p');
-          locText.classList.add('text-muted');
-          locText.appendChild(createLocationLink(message.location_id, message.location_name));
-          locDiv.appendChild(locText);
-          messageDiv.appendChild(locDiv);
-      }
-      messageDiv.appendChild(bodyDiv);
-
-      if(flip%2 == 1){
-        messageBlock.classList.add('timeline-inverted');
-      }
-      messageBlock.appendChild(imageDiv);
-      messageBlock.appendChild(messageDiv);
-
     });
+
+  const timeDiv = document.createElement('div');
+  timeDiv.classList.add('timeline-body');
+  timeText = document.createElement('p');
+  timeText.classList.add('text-muted');
+  timeText.appendChild(document.createTextNode(formatTimestamp(message.timestamp)));
+  timeDiv.appendChild(timeText);
+
+  const bodyDiv = document.createElement('div');
+  bodyDiv.classList.add('timeline-body');
+  var renderedHtml = SimpleMDE.prototype.markdown(message.text.replace('&gt;', '>')); // Allow quotes
+  renderedHtml = renderedHtml.replace(/<img /g, '<img class="w-100 p-1" ');
+  bodyDiv.innerHTML = renderedHtml;
+
+  if(viewingSelf) {
+    const deleteConfirmationDiv = createDeleteConfirmationDiv(message.id, message.location_id);
+    messageDiv.appendChild(deleteConfirmationDiv);
+    messageDiv.appendChild(createDeleteButton(deleteConfirmationDiv));
+  }
+
+  messageDiv.appendChild(usernameDiv);
+  messageDiv.appendChild(timeDiv);
+  if (message.location_name){
+      const locDiv = document.createElement('div');
+      locDiv.classList.add('timeline-body');
+      locText = document.createElement('p');
+      locText.classList.add('text-muted');
+      locText.appendChild(createLocationLink(message.location_id, message.location_name));
+      locDiv.appendChild(locText);
+      messageDiv.appendChild(locDiv);
+  }
+  messageDiv.appendChild(bodyDiv);
+
+  const messageBlock = document.createElement('li');
+  if(flip%2 == 1){
+    messageBlock.classList.add('timeline-inverted');
+  }
+  messageBlock.appendChild(imageDiv);
+  messageBlock.appendChild(messageDiv);
 
   return messageBlock;
 }
