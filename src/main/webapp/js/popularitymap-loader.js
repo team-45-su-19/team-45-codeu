@@ -2,8 +2,8 @@ function createMap(){
     document.getElementById('map').style.height = '500px';
     map = new google.maps.Map(document.getElementById('map'), {
             //the map is initially set to have a view of Singapore
-            center: {lat: 1.34, lng: 103.8},
-            zoom: 11.5
+            center: {lat: 1.34, lng: 103.83},
+            zoom: 11
         });
     showHeatMap(map);
 }
@@ -29,7 +29,7 @@ function createMarker(map, location, rank){
     const marker = new google.maps.Marker({
         position: {lat: location.lat, lng: location.lng},
         title: location.name,
-        label: String(rank),
+        label: String(location.count),
         map: map
     });
 
@@ -56,7 +56,7 @@ function createMarker(map, location, rank){
 
 function createLocationLink(location) {
     var locationLink = document.createElement("a");
-    if(location.id == undefined) {
+    if(typeof location.id == 'undefined') {
         locationLink.href = "/feed.html";
     } else{
         locationLink.href = "/feed.html?locationid="+location.id+"&name="+location.name;
