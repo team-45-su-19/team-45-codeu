@@ -11,7 +11,12 @@ function initAutocomplete() {
   var strictBounds = document.getElementById('strict-bounds-selector');
 
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-
+  input.onkeypress = function(e) {
+    var key = e.charCode || e.keyCode || 0;
+    if (key == 13) {
+      e.preventDefault();
+    }
+  }
   var autocomplete = new google.maps.places.Autocomplete(input);
 
   // Bind the map's bounds (viewport) property to the autocomplete object,
@@ -190,6 +195,7 @@ function preventAutoSubmit() {
     }
   }
 }
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   initAutocomplete();
