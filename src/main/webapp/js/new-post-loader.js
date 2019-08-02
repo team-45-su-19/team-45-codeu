@@ -16,7 +16,7 @@ function initAutocomplete() {
     if (key == 13) {
       e.preventDefault();
     }
-  }
+  };
   var autocomplete = new google.maps.places.Autocomplete(input);
 
   // Bind the map's bounds (viewport) property to the autocomplete object,
@@ -193,7 +193,7 @@ function preventAutoSubmit() {
     if (key == 13) {
       e.preventDefault();
     }
-  }
+  };
 }
 
 /** Fetches data and populates the UI of the page. */
