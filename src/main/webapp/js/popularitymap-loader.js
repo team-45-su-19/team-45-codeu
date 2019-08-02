@@ -3,7 +3,7 @@ function createMap(){
     map = new google.maps.Map(document.getElementById('map'), {
             //the map is initially set to have a view of Singapore
             center: {lat: 1.34, lng: 103.83},
-            zoom: 11.1
+            zoom: 11
         });
     showHeatMap(map);
 }
