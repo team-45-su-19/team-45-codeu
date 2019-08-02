@@ -148,7 +148,7 @@ function addLocationInfoToForm(place){
   var idInput = document.createElement("input");
   idInput.setAttribute("type", "hidden");
   idInput.setAttribute("name", "location_id");
-  idInput.setAttribute("value", place.id);
+  idInput.setAttribute("value", place.place_id);
 
   document.getElementById("message-form").appendChild(latInput);
   document.getElementById("message-form").appendChild(lngInput);
@@ -160,7 +160,7 @@ function replaceLocationInfo(place){
   document.getElementsByName("lat")[0].value = place.geometry.location.lat();
   document.getElementsByName("lng")[0].value = place.geometry.location.lng();
   document.getElementsByName("location_name")[0].value = place.name;
-  document.getElementsByName("location_id")[0].value = place.id;
+  document.getElementsByName("location_id")[0].value = place.place_id;
 }
 
 function showLocationChosen(name){

@@ -34,20 +34,34 @@ function createMarker(map, location, rank){
     });
 
     var infoWindowContent = document.createElement("div");
-    var title = document.createElement("p");
-    //title.className="section-heading-upper";
-    title.appendChild(document.createTextNode(location.name));
+    infoWindowContent.classList.add('info');
+
+    var title = document.createElement("h1");
+    title.appendChild(createLocationLink(location));
     infoWindowContent.appendChild(title);
 
-    var visitCount = document.createElement("p");
+    var visitCount = document.createElement("h2");
     visitCount.appendChild(document.createTextNode(location.count + " visits by our users!"));
     infoWindowContent.appendChild(visitCount);
 
     const infoWindow = new google.maps.InfoWindow({
-        content: infoWindowContent
+        content: infoWindowContent,
+        maxWidth: 300
     });
 
     marker.addListener('click', ()=>{
         infoWindow.open(map, marker);
     });
+}
+
+function createLocationLink(location) {
+    var locationLink = document.createElement("a");
+    if(location.id == undefined) {
+        locationLink.href = "/feed.html";
+    } else{
+        locationLink.href = "/feed.html?locationid="+location.id+"&name="+location.name;
+    }
+    locationLink.classList.add('locationLink');
+    locationLink.innerHTML = location.name;
+    return locationLink;
 }

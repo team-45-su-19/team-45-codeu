@@ -39,6 +39,7 @@ public class Datastore {
   /** Stores the Location in Datastore. */
   public void storeLocation(Location location){
     Entity locationEntity = new Entity("Location", location.getId());
+    locationEntity.setProperty("id", location.getId());
     locationEntity.setProperty("name", location.getName());
     locationEntity.setProperty("lat", location.getLat());
     locationEntity.setProperty("lng", location.getLng());
@@ -102,6 +103,15 @@ public class Datastore {
     return prepareMessages(query);
   }
 
+  /** Return a list of messages for a location. */ 
+  public List<Message> getMessagesForLocation(String locationId) {
+    Query query = new Query("Message")
+              .setFilter(new Query.FilterPredicate("location_id", FilterOperator.EQUAL, locationId))
+              .addSort("timestamp", SortDirection.DESCENDING);
+
+    return prepareMessages(query);
+  }
+  
   public Entity retrieveLocationEntity(String id){
     Key key = KeyFactory.createKey("Location", id);
     try{
@@ -129,7 +139,7 @@ public class Datastore {
    * @return a location object.
    */
   public Location getLocation(Entity locationEntity){
-    String id = KeyFactory.keyToString(locationEntity.getKey());
+    String id = (String) locationEntity.getProperty("id");
     String name = (String) locationEntity.getProperty("name");
     double lat = (double) locationEntity.getProperty("lat");
     double lng = (double) locationEntity.getProperty("lng");
@@ -195,7 +205,7 @@ public class Datastore {
 
     for (Entity locationEntity : results.asIterable()) {
       try {
-        String id = KeyFactory.keyToString(locationEntity.getKey());
+        String id = (String) locationEntity.getProperty("id");
         String name = (String) locationEntity.getProperty("name");
         double lat = (double) locationEntity.getProperty("lat");
         double lng = (double) locationEntity.getProperty("lng");

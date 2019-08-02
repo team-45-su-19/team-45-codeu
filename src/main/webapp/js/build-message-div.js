@@ -37,6 +37,18 @@ function buildMessageDiv(message){
   return messageDiv;
 }
 
+function createLocationLink(locationId, locationName) {
+    var locationLink = document.createElement("a");
+    if(locationId == undefined) {
+      location.href = "#";
+    } else {
+      locationLink.href = "/feed.html?locationid="+locationId+"&name="+locationName;
+    }
+    locationLink.classList.add('locationLink');
+    locationLink.innerHTML = locationName;
+    return locationLink;
+}
+
 function formatTimestamp(messageTime){
   var timestamp = new Date(messageTime);
   return timestamp.getFullYear()+"."+timestamp.getMonth()+"."+timestamp.getDate()
@@ -49,7 +61,7 @@ function createDeleteButton(deleteConfirmationDiv){
   deleteBtn.type='button';
   deleteBtn.classList.add('delete');
   var icon = document.createElement('i');
-  icon.classList.add('fa','fa-trash', 'm-2');
+  icon.classList.add('fa','fa-trash');
   deleteBtn.appendChild(icon);
   deleteBtn.onclick = function(){
     deleteConfirmationDiv.classList.remove('hide');
@@ -115,7 +127,7 @@ function createDeleteConfirmationDiv(message_id, location_id){
 function buildMessageInTimeline(message, flip, viewingSelf){
   const messageDiv = document.createElement('div');
   messageDiv.classList.add("timeline-panel");
-  
+
   const imageDiv = document.createElement('div');
   imageDiv.classList.add("timeline-image");
 
