@@ -182,8 +182,17 @@ function loadMarkdownEditor() {
   });
 }
 
+function preventAutoSubmit() {
+  document.getElementById("submit").onkeypress = function(e) {
+    var key = e.charCode || e.keyCode || 0;
+    if (key == 13) {
+      e.preventDefault();
+    }
+  }
+}
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   initAutocomplete();
   loadMarkdownEditor();
+  preventAutoSubmit();
 }
