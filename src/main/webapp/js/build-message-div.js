@@ -140,32 +140,27 @@ function buildMessageInTimeline(message, flip, viewingSelf){
 
   const usernameDiv = document.createElement('div');
   usernameDiv.classList.add('timeline-heading');
-  usernameText = document.createElement('h4');
+  const usernameText = document.createElement('h4');
 
-  const messageBlock = document.createElement('li');
+  //const messageBlock = document.createElement('li');
 
   var nicknameText = '';
-
-//  usernameText.appendChild(document.createTextNode(nicknameText));
-//  usernameDiv.appendChild(usernameText);
-
   const nameUrl = '/nickname?user=' + message.user;
+    fetch(nameUrl).then((response) => {
+      return response.text();
+    }).then((nickname) => {
+      nicknameText = nickname;
+      console.log("Let nicknameText = " + nicknameText);
+      if (!/\S/.test(nickname)) {
+        console.log("Nickname was empty");
+        nicknameText = message.user;
+      }
+    });
 
-  fetch(nameUrl).then((response) => {
-    return response.text();
-  }).then((nickname) => {
-    nicknameText = nickname;
-    console.log("Let nicknameText = " + nicknameText);
-    if (!/\S/.test(nickname)) {
-      console.log("Nickname was empty");
-      nicknameText = message.user;
-    }
-    console.log(">>>> Final nickname is " + nicknameText);
-    usernameText.appendChild(document.createTextNode(nicknameText));
-    console.log("Gonna append the usernameText to usernameDiv now");
-    usernameDiv.appendChild(usernameText);
-
-
+  console.log(">>>> Final nickname is " + nicknameText);
+  usernameText.appendChild(document.createTextNode(nicknameText));
+  console.log("Gonna append the usernameText to usernameDiv now");
+  usernameDiv.appendChild(usernameText);
 
   const timeDiv = document.createElement('div');
   timeDiv.classList.add('timeline-body');
@@ -193,24 +188,22 @@ function buildMessageInTimeline(message, flip, viewingSelf){
       locDiv.classList.add('timeline-body');
       locText = document.createElement('p');
       locText.classList.add('text-muted');
-      locText.appendChild(document.createTextNode(message.location_name));
+      locText.appendChild(createLocationLink(message.location_id, message.location_name));
       locDiv.appendChild(locText);
       messageDiv.appendChild(locDiv);
   }
   messageDiv.appendChild(bodyDiv);
 
-//  const messageBlock = document.createElement('li');
-      if(flip%2 == 1){
-        messageBlock.classList.add('timeline-inverted');
-      }
-      messageBlock.appendChild(imageDiv);
-      messageBlock.appendChild(messageDiv);
-  });
-
-
+  const messageBlock = document.createElement('li');
+  if(flip%2 == 1){
+    messageBlock.classList.add('timeline-inverted');
+  }
+  messageBlock.appendChild(imageDiv);
+  messageBlock.appendChild(messageDiv);
 
   return messageBlock;
 }
+
 
 function buildTimeline(messages, viewingSelf){
   const timeline = document.createElement('ul');
