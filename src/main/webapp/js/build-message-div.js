@@ -6,7 +6,7 @@
 function buildMessageDiv(message){
   const usernameDiv = document.createElement('div');
   usernameDiv.classList.add("left-align");
-  usernameDiv.appendChild(document.createTextNode(usernameDiv));
+  usernameDiv.appendChild(document.createTextNode(message.user));
 
   const timeDiv = document.createElement('div');
   timeDiv.classList.add('right-align');
@@ -162,15 +162,11 @@ function buildMessageInTimeline(message, flip, viewingSelf){
       return response.text();
     }).then((nickname) => {
       nicknameText = nickname;
-      console.log("Let nicknameText = " + nicknameText);
       if (!/\S/.test(nickname)) {
-        console.log("Nickname was empty");
         nicknameText = message.user;
       }
 
-      console.log(">>>> Final nickname is " + nicknameText);
       usernameText.appendChild(document.createTextNode(nicknameText));
-      console.log("Gonna append the usernameText to usernameDiv now");
       usernameDiv.appendChild(usernameText);
 
       const timeDiv = document.createElement('div');
