@@ -152,9 +152,21 @@ function buildMessageInTimeline(message, flip, viewingSelf){
 
   const usernameDiv = document.createElement('div');
   usernameDiv.classList.add('timeline-heading');
-  usernameText = document.createElement('h4');
-  usernameText.appendChild(document.createTextNode(message.user));
-  usernameDiv.appendChild(usernameText);
+  const usernameText = document.createElement('h4');
+
+  var nicknameText = '';
+  const nameUrl = '/nickname?user=' + message.user;
+    fetch(nameUrl).then((response) => {
+      return response.text();
+    }).then((nickname) => {
+      nicknameText = nickname;
+      if (!/\S/.test(nickname)) {
+        nicknameText = message.user;
+      }
+
+      usernameText.appendChild(document.createTextNode(nicknameText));
+      usernameDiv.appendChild(usernameText);
+    });
 
   const timeDiv = document.createElement('div');
   timeDiv.classList.add('timeline-body');
@@ -197,6 +209,7 @@ function buildMessageInTimeline(message, flip, viewingSelf){
 
   return messageBlock;
 }
+
 
 function buildTimeline(messages, viewingSelf){
   const timeline = document.createElement('ul');
